@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Art Web</title>
+	<link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet" >
+	<link href="{% static '/css/font-awesome.min.css' %}" rel="stylesheet" >
+	<link href="{% static '/css/global.css' %}" rel="stylesheet">
+	<link href="{% static '/css/product.css' %}" rel="stylesheet">
+	<link href="{% static '/https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&display=swap' %}" rel="stylesheet">
+	<script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+	<!-- Include Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+</head>
+<body>
+<section id="header">
+<nav class="navbar navbar-expand-md navbar-light" id="navbar_sticky">
+  <div class="container-xl">
+    <a class="navbar-brand fs-2 p-0 fw-bold text-white" href="{% static '/index.html' %}"><a href="#"><img src="{% static '/img/logo.png' %}" width="50" height="50" alt="abc"></a><!--<i class="fa fa-pencil col_pink me-1 align-middle"></i> art --><span class="col_pink span_1" >MODERN</span><br><span class="font_12 span_2">ART GALLERY</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-0 ms-auto">
+	    
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About </a>
+        </li>
+		
+		<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Events
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'exhibition' %}"> Exhibitions</a></li>
+            <li><a class="dropdown-item border-0" href="{% url 'competition' %}"> competitions</a></li>
+          </ul>
+        </li>
+		
+		<!--<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Blog
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="blog.html"> Blog</a></li>
+            <li><a class="dropdown-item border-0" href="blog_detail.html"> Blog Detail</a></li>
+          </ul>
+        </li>-->
+
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'blog' %}">Blog </a>
+		  </li>
+		   <li class="nav-item">
+			<a class="nav-link" href="{% url 'contact' %}">Contact </a>
+		  </li>
+		
+		<!--<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Pages
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="cart.html"> Shopping Cart</a></li>
+            <li><a class="dropdown-item border-0" href="checkout.html"> Checkout</a></li>
+          </ul>
+        </li>-->
+
+		<!--<li class="nav-item">
+			<a class="nav-link" href="Events.html">Events </a>
+		  </li>-->
+
+		  <!--<li class="nav-item">
+			<a class="nav-link" href="artstore.html">Art Store </a>
+		  </li>-->
+				
+		<li class="nav-item dropdown">
+    {% if user.is_authenticated %}
+        <a class="nav-link dropdown-toggle btn btn-primary d-flex align-items-center justify-content-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i>
+            <p class="m-0">{{ user.username }}</p>
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="userDropdown">
+            {% if user.user_type == 'user' %}
+                <a class="dropdown-item" href="{% url 'userprofile' %}">View Profile</a>
+            {% elif user.user_type == 'artist' %}
+                <a class="dropdown-item" href="{% url 'artistprofile' %}">View Profile</a>
+            {% endif %}
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        </div>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary ml-lg-3">Login/Register</a>
+    {% endif %}
+</li>
+		  <!--<li class="nav-item">
+			<a class="nav-link" href="register.html">Register</a>
+		  </li>-->
+		
+		
+      </ul>
+    </div>
+  </div>
+</nav>
+</section>
+<section>
+<center><h1>COMPETITIONS</h1></center>
+<div class="row competition-container">
+    {% for competition in competitions %}
+    <div class="col-md-3">
+        <div class="competition-card">
+            <a href="#">
+                <img src="{{ competition.image.url }}" alt="{{ competition.competition_name }}" class="img-fluid" oncontextmenu="return false;">
+            </a>
+            <h4>{{ competition.competition_name }}</h4>
+            <p>Description: {{ competition.description }}</p>
+            <p>Date: {{ competition.date }}</p>
+            <p>Time: {{ competition.time }} {{ competition.am_pm }}</p>
+            <p>Location: {{ competition.location }}</p>
+
+            <a href="#" class="btn-like">
+                <i class="fa fa-thumbs-up"></i> Like
+            </a>
+
+            <!-- Share Button -->
+            <a href="#" class="btn-share">
+                <i class="fa fa-share"></i> Share
+            </a>
+            <h6 class="font_14 mb-0 mt-4"><a class="button p-3 pt-2 pb-2" href="#">APPLY</a></h6><br>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+    </div>
+</section>
+
+
+
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar_sticky = document.getElementById("navbar_sticky");
+var sticky = navbar_sticky.offsetTop;
+var navbar_height = document.querySelector('.navbar').offsetHeight;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky + navbar_height) {
+    navbar_sticky.classList.add("sticky")
+	document.body.style.paddingTop = navbar_height + 'px';
+  } else {
+    navbar_sticky.classList.remove("sticky");
+	document.body.style.paddingTop = '0'
+  }
+}
+</script>
+
+</body>
+
+</html>

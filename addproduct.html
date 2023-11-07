@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Art Web</title>
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/global.css' %}" rel="stylesheet">
+    <link href="{% static '/css/about.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+
+    <style>
+        .product-form {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f7f7f7;
+            text-align: left;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: black;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 97%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add this CSS rule to change the text color to black */
+        body {
+            color: black;
+        }
+
+        h2, h1, h3 {
+            color: black;
+        }
+       
+    </style>
+</head>
+<body>
+
+{% include "messages.html" %}
+<section id="header">
+    <nav class="navbar navbar-expand-md navbar-light" id="navbar_sticky">
+        <div class="container-xl">
+            <a class="navbar-brand fs-2 p-0 fw-bold text-white" href="{% static '/index.html' %}">
+                <a href="#"><img src="{% static '/img/logo.png' %}" width="50" height="50" alt="abc"></a>
+                <span class="col_pink span_1">MODERN</span><br>
+                <span class="font_12 span_2">ART GALLERY</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-0 ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Events
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="exhibition.html">Exhibitions</a></li>
+                            <li><a class="dropdown-item border-0" href="competition.html">Competitions</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blog.html">Blog </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+    {% if user.is_authenticated %}
+        <a class="nav-link dropdown-toggle btn btn-primary d-flex align-items-center justify-content-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i>
+            <p class="m-0">{{ user.username }}</p>
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="userDropdown">
+            {% if user.user_type == 'user' %}
+                <a class="dropdown-item" href="{% url 'userprofile' %}">View Profile</a>
+            {% elif user.user_type == 'artist' %}
+                <a class="dropdown-item" href="{% url 'artistprofile' %}">View Profile</a>
+            {% endif %}
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        </div>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary ml-lg-3">Login/Register</a>
+    {% endif %}
+</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+
+<div class="product-form">
+        <h2>Add Product</h2>
+        <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <label for="productName">Product Name:</label>
+            <input type="text" name="productName" id="productName" required>
+            <span id="productNameError" class="error-text"></span> 
+
+            <!--<label for="theme">Theme:</label>
+            <input type="text" name="theme" id="theme">-->
+
+            <label for="theme">Theme:</label>
+<select name="theme" id="theme">
+    <option value="history">History</option>
+    <option value="time">Time</option>
+    <option value="humans_environment">Humans and the Environment</option>
+    <option value="society">Society</option>
+    <option value="culture">Culture</option>
+    <option value="memory">Memory</option>
+    <option value="technology">Technology</option>
+</select>
+
+            <label for="artType">Art Type:</label>
+<select name="artType" id="artType">
+    <option value="pencil_drawing">Pencil Drawing</option>
+    <option value="oil_painting">Oil Painting</option>
+    <option value="watercolor_painting">Watercolor Painting</option>
+    <option value="acrylic_painting">Acrylic Painting</option>
+    <option value="pastel_drawing">Pastel Drawing</option>
+    <option value="landscape_painting">Landscape Painting</option>
+</select>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" required>
+
+            <label for="description">Description:</label>
+            <textarea name="description" id="description" rows="4"></textarea>
+
+            <label for="price">Product Price:</label>
+            <input type="number" name="price" id="price" required>
+            <span id="priceError" class="error-text"></span>
+
+            <label for="status">Status:</label>
+            <select name="status" id="status">
+                <option value="available">Available</option>
+                <option value="out-of-stock">Out of Stock</option>
+            </select>
+
+            <label for="productImage">Product Image (Max Size: 40KB, Max Dimensions: 400x300):</label>
+            <input type="file" name="productImage" id="productImage" accept="image/*" onchange="checkImage(this)" required><br><br>
+
+            <button type="submit">Add Product</button>&nbsp; &nbsp; <button type="reset">Reset</button>
+        </form>
+    </div>
+    
+    <div class="row footer_2 mt-4 text-center">
+    <div class="col-md-12">
+	 <ul>
+	  <li class="d-inline-block me-3 font_14"><a href="#">CONTACT</a></li>
+	  <li class="d-inline-block me-3 font_14"><a href="#">PRIVACY POLICY</a></li>
+	  <li class="d-inline-block me-3 font_14"><a href="#">TERMS OF USE</a></li>
+	  <li class="d-inline-block font_14"><a href="#">FAQ</a></li>
+	 </ul>
+	 <p class="mb-0">© 2013 Modern Art Gallery. All Rights Reserved | Design by <a class="col_pink" href="http://www.templateonweb.com">Art Gallery</a></p>
+	</div>
+   </div>
+ </div>
+</section>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<script>
+function checkImage(input) {
+    if (input.files.length > 0) {
+        var image = new Image();
+        image.src = URL.createObjectURL(input.files[0]);
+
+        image.onload = function() {
+            var maxWidth = 400; // Max width in pixels
+            var maxHeight = 300; // Max height in pixels
+
+            if (image.width > maxWidth || image.height > maxHeight) {
+                alert("Image dimensions exceed the maximum allowed size of 400x300 pixels.");
+                input.value = ""; // Clear the input field
+            }
+        };
+        
+        var fileSize = input.files[0].size; // Get the file size in bytes
+        var maxSize = 40 * 1024; // 40KB in bytes
+
+        if (fileSize > maxSize) {
+            alert("File size exceeds the maximum allowed size of 40KB.");
+            input.value = ""; // Clear the input field
+        }
+    }
+}
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var productNameInput = document.getElementById('productName');
+    var productNameError = document.getElementById('productNameError');
+
+    productNameInput.addEventListener('input', function () {
+        var inputValue = productNameInput.value;
+        if (inputValue.startsWith(' ')) {
+            productNameInput.classList.add('error');
+            productNameError.textContent = "Product Name should not start with a space.";
+            productNameError.style.color = "red"; // Set the error message text color to red
+        } else {
+            productNameInput.classList.remove('error');
+            productNameError.textContent = ""; // Clear the error message
+        }
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var priceInput = document.getElementById('price');
+    var priceError = document.getElementById('priceError');
+
+    priceInput.addEventListener('input', function () {
+        var inputValue = parseFloat(priceInput.value);
+
+        if (isNaN(inputValue) || inputValue < 0) {
+            priceInput.classList.add('error');
+            priceError.textContent = "Price should be a non-negative value.";
+            priceError.style.color = "red"; // Set the error message text color to red
+        } else {
+            priceInput.classList.remove('error');
+            priceError.textContent = ""; // Clear the error message
+        }
+    });
+});
+</script>
+
+
+
+
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar_sticky = document.getElementById("navbar_sticky");
+var sticky = navbar_sticky.offsetTop;
+var navbar_height = document.querySelector('.navbar').offsetHeight;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky + navbar_height) {
+    navbar_sticky.classList.add("sticky")
+	document.body.style.paddingTop = navbar_height + 'px';
+  } else {
+    navbar_sticky.classList.remove("sticky");
+	document.body.style.paddingTop = '0'
+  }
+}
+</script>
+</body>
+</html>

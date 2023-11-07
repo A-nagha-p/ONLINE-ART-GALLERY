@@ -1,0 +1,155 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Art Web</title>
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/global.css' %}" rel="stylesheet">
+    <link href="{% static '/css/about.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+
+    <style>
+        .product-table {
+            width: 100%;
+        }
+
+        .product-table th {
+            text-align: left;
+        }
+
+        .product-table td {
+            padding: 5px;
+        }
+
+        .product-table img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+{% include "messages.html" %}
+<section id="header">
+    <nav class="navbar navbar-expand-md navbar-light" id="navbar_sticky">
+        <div class="container-xl">
+            <a class="navbar-brand fs-2 p-0 fw-bold text-white" href="{% static '/index.html' %}">
+                <a href="#"><img src="{% static '/img/logo.png' %}" width="50" height="50" alt="abc"></a>
+                <span class="col_pink span_1">MODERN</span><br>
+                <span class="font_12 span_2">ART GALLERY</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-0 ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'about' %}">About </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Events
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'exhibition' %}">Exhibitions</a></li>
+                            <li><a class="dropdown-item border-0" href="{% url 'competition' %}">Competitions</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'blog' %}">Blog </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+    {% if user.is_authenticated %}
+        <a class="nav-link dropdown-toggle btn btn-primary d-flex align-items-center justify-content-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i>
+            <p class="m-0">{{ user.username }}</p>
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="userDropdown">
+            {% if user.user_type == 'user' %}
+                <a class="dropdown-item" href="{% url 'userprofile' %}">View Profile</a>
+            {% elif user.user_type == 'artist' %}
+                <a class="dropdown-item" href="{% url 'artistprofile' %}">View Profile</a>
+            {% endif %}
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        </div>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary ml-lg-3">Login/Register</a>
+    {% endif %}
+</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+
+
+<div class="container mt-5">
+{% block content %}
+  <h2>Delete Product</h2>
+  <p>Are you sure you want to delete "{{ product.product_name }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+  </form>
+ 
+{% endblock %}
+</div>
+
+
+
+<div class="row footer_2 mt-4 text-center">
+    <div class="col-md-12">
+	 <ul>
+	  <li class="d-inline-block me-3 font_14"><a href="#">CONTACT</a></li>
+	  <li class="d-inline-block me-3 font_14"><a href="#">PRIVACY POLICY</a></li>
+	  <li class="d-inline-block me-3 font_14"><a href="#">TERMS OF USE</a></li>
+	  <li class="d-inline-block font_14"><a href="#">FAQ</a></li>
+	 </ul>
+	 <p class="mb-0">© 2013 Modern Art Gallery. All Rights Reserved | Design by <a class="col_pink" href="http://www.templateonweb.com">Art Gallery</a></p>
+	</div>
+   </div>
+ </div>
+</section>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar_sticky = document.getElementById("navbar_sticky");
+var sticky = navbar_sticky.offsetTop;
+var navbar_height = document.querySelector('.navbar').offsetHeight;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky + navbar_height) {
+    navbar_sticky.classList.add("sticky")
+	document.body.style.paddingTop = navbar_height + 'px';
+  } else {
+    navbar_sticky.classList.remove("sticky");
+	document.body.style.paddingTop = '0'
+  }
+}
+</script>
+</body>
+</html>
+

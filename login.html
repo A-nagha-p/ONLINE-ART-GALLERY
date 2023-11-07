@@ -1,0 +1,394 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Art Web</title>
+	<link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet" >
+	<link href="{% static '/css/font-awesome.min.css' %}" rel="stylesheet" >
+	<link href="{% static '/css/global.css' %}" rel="stylesheet">
+	<link href="{% static '/css/index.css' %}" rel="stylesheet">
+	<link href="{% static '/https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&display=swap' %}" rel="stylesheet">
+	<script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+
+  <style>
+.login-container
+ {
+    max-width: 400px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px; /* Add padding to the container for spacing */
+    background-color: #000000cf; /* Optional background color for the container */
+    border: 1px solid #ccc; /* Optional border for the container */
+    border-radius: 5px; /* Optional border-radius for rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional box shadow */
+}
+.error-box
+{
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+body {
+            background-image: url("{% static '/img/22s.jpg' %}");
+            background-size: cover; /* Adjust this to control the image size */
+            /* Additional background properties can be added here */
+        }
+
+  </style>
+
+
+</head>
+<body>
+{% include "messages.html" %}
+<div class="main clearfix position-relative">
+ <div class="main_1 clearfix position-absolute top-0 w-100">
+   <section id="header" style="background-color: rgba(0, 0, 0, 0.496);">
+<nav class="navbar navbar-expand-md navbar-light" id="navbar_sticky">
+  <div class="container-xl">
+    <a class="navbar-brand fs-2 p-0 fw-bold text-white" href="{% static '/index.html' %}"><a href="#"><img src="{% static '/img/logo.png' %}" width="50" height="50" alt="abc"></a><!--<i class="fa fa-pencil col_pink me-1 align-middle"></i> art --><span class="col_pink span_1" >MODERN</span><br><span class="font_12 span_2">ART GALLERY</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-0 ms-auto">
+	    
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About </a>
+        </li>
+		
+		<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% static '/#' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Events
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'exhibition' %}">Exhibitions</a></li>
+            <li><a class="dropdown-item border-0" href="{% url 'competition' %}">competitions</a></li>
+          </ul>
+        </li>
+		
+		<!--<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% static '/#' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Blog
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% static '/blog.html' %}"> Blog</a></li>
+            <li><a class="dropdown-item border-0" href="{% static '/blog_detail.html' %}"> Blog Detail</a></li>
+          </ul>
+        </li>-->
+        
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'blog' %}">Blog </a>
+		  </li>
+		
+		<!--<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% static '/#' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Pages
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% static '/cart.html' %}"> Shopping Cart</a></li>
+            <li><a class="dropdown-item border-0" href="{% static '/checkout.html' %}"> Checkout</a></li>
+          </ul>
+        </li>-->
+
+		<!--<li class="nav-item">
+			<a class="nav-link" href="Events.html">Events </a>
+		  </li>-->
+		  <!--<li class="nav-item">
+			<a class="nav-link" href="artstore.html">Art Store </a>
+		  </li>-->
+				
+		<li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+        </li>
+		<li class="nav-item">
+    {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}" class="btn btn-primary ml-lg-3">Logout</a>
+    {% else %}
+    <a href="{% url 'login' %}" class="btn btn-primary ml-lg-3">Login/Register</a>
+    {% endif %}
+			<!--<a class="nav-link btn btn-info" style="font-weight: bold;" href="login.html">Login/Register</a>-->
+		  </li>
+		  <!--<li class="nav-item">
+			<a class="nav-link" href="register.html">Register</a>
+		  </li>-->
+		
+      </ul>
+    </div>
+  </div>
+</nav>
+</section>
+</div>
+ </div>
+
+ <br><br><br><br><br><br><br><br><br><!--<center><h2 style="font-weight: bold">LOGIN</h2></center>-->
+ <div id="home" class="banner-container no-padding">
+     <div class="container">
+             <div class="col-md-6 mx-auto">
+                 <div class="row mx-auto"></div>
+                         <div class="slider-det">
+                             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                               <div class="login-container">
+                    
+                    
+                     <form action="" method="POST" id="login-form">
+                         {% csrf_token %}
+                         {% if messages %}
+                           <div class="error-box">
+                           {% for message in messages %}
+                              {{ message }}
+                           {% endfor %}
+                           </div>
+                         {% endif %}
+                         <div>
+                          <center><h2 style="font-weight: bold">LOGIN</h2></center>
+                          <div class="form-group">
+                             <label for="username">Username:</label>
+                             <input type="text" id="username" name="username" class="form-control" required>
+                             <span id="username-error" style="color:red;" class="error"></span>
+                         </div>
+                         <div class="form-group">
+                             <label for="password">Password:</label>
+                             <input type="password" id="password" name="password" class="form-control" required>
+                             <span id="password-error" style="color:red;" class="error"></span>
+                         </div><br>
+                         <center><button type="submit" class="btn btn-info">Login</button></center>
+                     </form>
+                     <center>
+
+                         <p>Don't have an account?<a href="{% url 'register' %}" style="color: #a81c51;">&nbsp;&nbsp;Create One!</a>&nbsp;
+                             <p><a href="{% url 'password_reset' %}" class="link" style="color: rgb(61, 88, 147);">Forgot Password</a></p>
+                     </center>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+
+
+</div>
+</div>
+<div class="w-10 col-12 d-flex justify-content-center">
+<form method="POST" autocomplete="off"> 
+<div class="form-group" > 
+
+
+
+</div>
+</form>
+</div><br><br><br><br><br><br><br><br><br>
+
+
+ <section id="footer" class="pt-3 pb-3 " style="background-color:black;">
+  <div class="container-fluid ">
+    <div class="row footer_1">
+     <div class="col-md-3">
+    <div class="footer_1i">
+     <hr class="line_1">
+     <h5 class="mb-3">MODERN ART GALLERY</h5>
+     <p>2nd Floor, Phoenix,<BR>
+     Near Vijay Cross Roads, Navrangpura,<BR>
+     Ahmedabad - 380 009. (INDIA)<BR>
+     Tel: +91-9712979034</p>
+    </div>
+   </div>
+   <!--<div class="col-md-3">
+    <div class="footer_1i">
+     <hr class="line_1">
+     <h5 class="mb-3">RECENT WORKS</h5>
+     <div class="footer_1i1 row">
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/30.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/31.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/32.jpg'%}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+     </div>
+     <div class="footer_1i1 row">
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/33.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/34.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/35.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+     </div>
+    </div>
+   </div>-->
+   &nbsp;&nbsp;&nbsp;&nbsp;<div class="col-md-3">
+    <div class="footer_1i">
+     <hr class="line_1">
+     <h5 class="mb-3">MORE</h5>
+      <ul class="mb-0">
+       <li class="d-inline-block"><a class="d-block" href="#">About us</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Blog</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Events</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Contact Us</a></li>
+     <!--<li class="d-inline-block"><a class="d-block" href="#">Design</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Experiment</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">News</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Expertize</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Express</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Share</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Sustain</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Video</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Youtube</a></li>-->
+      </ul>
+    </div>
+   </div>
+   <!--&nbsp;&nbsp;&nbsp;&nbsp;<div class="col-md-3">
+    <div class="footer_1i">
+     <hr class="line_1">
+     <h5 class="mb-3">RECENT NEWS</h5>
+      <p class="font_14 mb-2"><a href="#">INTEGER AT DIAM GRAVIDA FRINGILLA NIBH PRETI PURUS</a></p>
+     <h6 class="col_light font_14"><i class="fa fa-clock-o col_pink me-1"></i> May 18 <a class="col_light" href="#"><i class="fa fa-comment-o col_pink me-1 ms-3"></i> 2</a></h6>
+     <hr>
+      <p class="font_14 mb-2"><a href="#">DONEC QUIS EX VEL TINCIDUNT</a></p>
+     <h6 class="col_light font_14"><i class="fa fa-clock-o col_pink me-1"></i> July 19 <a class="col_light" href="#"><i class="fa fa-comment-o col_pink me-1 ms-3"></i> 2</a></h6>
+     <hr>
+     <p class="font_14 mb-2"><a href="#">PRAESENT IACULIS TORTOR VIVERRA</a></p>
+     <h6 class="col_light font_14"><i class="fa fa-clock-o col_pink me-1"></i> June 17 <a class="col_light" href="#"><i class="fa fa-comment-o col_pink me-1 ms-3"></i> 2</a></h6>
+    </div>
+   </div>-->
+    </div>
+    <div class="row footer_2 mt-4 text-center">
+     <div class="col-md-12">
+    <ul>
+     <li class="d-inline-block me-3 font_14"><a href="#">CONTACT</a></li>
+     <li class="d-inline-block me-3 font_14"><a href="#">PRIVACY POLICY</a></li>
+     <li class="d-inline-block me-3 font_14"><a href="#">TERMS OF USE</a></li>
+     <li class="d-inline-block font_14"><a href="#">FAQ</a></li>
+    </ul>
+    <p class="mb-0">© 2013 Modern Art Gallery. All Rights Reserved | Design by <a class="col_pink" href="#">Art gallery</a></p>
+   </div>
+    </div>
+  </div>
+ </section>
+ 
+ <script>
+   window.onscroll = function() {myFunction()};
+   
+   var navbar_sticky = document.getElementById("navbar_sticky");
+   var sticky = navbar_sticky.offsetTop;
+   var navbar_height = document.querySelector('.navbar').offsetHeight;
+   
+   function myFunction() {
+     if (window.pageYOffset >= sticky + navbar_height) {
+     navbar_sticky.classList.add("sticky")
+     document.body.style.paddingTop = navbar_height + 'px';
+     } else {
+     navbar_sticky.classList.remove("sticky");
+     document.body.style.paddingTop = '0'
+     }
+   }
+   </script>
+
+<script>
+  // Get references to the form and input fields
+  const form = document.getElementById("login-form");
+  const usernameInput = document.getElementById("username");
+  const passwordInput = document.getElementById("password");
+  const usernameError = document.getElementById("username-error");
+  const passwordError = document.getElementById("password-error");
+
+  // Function to validate the form
+  function validateForm() {
+      // Reset previous error messages
+      usernameError.textContent = "";
+      passwordError.textContent = "";
+
+      // Get the values of the input fields
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      // Validate username (for example, require a minimum length and only letters)
+      if (username.length < 3) {
+          usernameError.textContent = "Username must be at least 3 characters.";
+          return false; // Prevent form submission
+      } else if (!/^[a-zA-Z]+$/.test(username)) {
+          usernameError.textContent = "Username can only contain letters.";
+          return false; // Prevent form submission
+      }
+
+      // Validate password (for example, require a minimum length)
+      if (password.length < 6) {
+          passwordError.textContent = "Password must be at least 6 characters.";
+          return false; // Prevent form submission
+      }
+
+      // If all validations pass, allow form submission
+      return true;
+  }
+
+  // Attach the validateForm function to the form's submit event
+  form.addEventListener("submit", function (event) {
+      if (!validateForm()) {
+          event.preventDefault(); // Prevent form submission if validation fails
+      }
+  });
+
+  // Real-time validation for the username field
+  usernameInput.addEventListener("input", function () {
+      const username = usernameInput.value.trim();
+
+      // Validate username as the user types (for example, check if it's too short and contains only letters)
+      if (username.length < 3) {
+          usernameError.textContent = "Username must be at least 3 characters.";
+      } else if (!/^[a-zA-Z]+$/.test(username)) {
+          usernameError.textContent = "Username can only contain letters.";
+      } else {
+          usernameError.textContent = ""; // Clear the error message if valid
+      }
+  });
+</script>
+ 
+ </body>
+ 
+ </html>
