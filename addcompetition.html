@@ -164,6 +164,10 @@
         <label for="location">Location:</label>
         <input type="text" id="location" name="location" required><br>
 
+         <!-- Fee -->
+        <label for="fee">Fee:</label>
+        <input type="text" id="fee" name="fee" required><br>
+
         <!-- Image Upload -->
         
         
@@ -172,7 +176,7 @@
         
         <!-- Server-side validation message -->
         <p style="font-size: 14px; color: red;">
-            Max Size: 40KB, Max Dimensions: 400x300
+            Max Size: 40KB, Max Dimensions: 400x300 ,Min Dimensions: 100x100
         </p><br>
 
         <!-- Submit and Reset Buttons -->
@@ -224,6 +228,35 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+<script>
+function checkImage(input) {
+    if (input.files.length > 0) {
+        var image = new Image();
+        image.src = URL.createObjectURL(input.files[0]);
+
+        image.onload = function () {
+            var maxWidth = 400; // Max width in pixels
+            var maxHeight = 300; // Max height in pixels
+
+            if (image.width > maxWidth || image.height > maxHeight) {
+                alert("Image dimensions exceed the maximum allowed size of 400x300 pixels and maximum allowed size of 40KB.");
+                input.value = ""; // Clear the input field
+                return;
+            }
+
+            var fileSize = input.files[0].size; // Get the file size in bytes
+            var maxSize = 40 * 1024; // 40KB in bytes
+
+            if (fileSize > maxSize) {
+                alert("File size exceeds the maximum allowed size of 40KB.");
+                input.value = ""; // Clear the input field
+            }
+        };
+    }
+}
+</script>
+
 
     <div class="row footer_2 mt-4 text-center">
     <div class="col-md-12">

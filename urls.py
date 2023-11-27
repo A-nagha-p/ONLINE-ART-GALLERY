@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from.import views
 from django.contrib.auth import views as auth_views
-
+from .views import delete_competition
 
 urlpatterns = [
     path('',views.index,name="home"),
@@ -57,6 +57,13 @@ urlpatterns = [
 
 
     path('viewcompetition.html',views.viewcompetition,name="viewcompetition"),
+
+    path('adminviewproduct.html',views.adminviewproduct,name="adminviewproduct"),
+
+    path('delete_competition/<int:competition_id>/', delete_competition, name='delete_competition'),
+
+
+    path('viewblogs.html', views.viewblogs, name='viewblogs'),
 
    
     

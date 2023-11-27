@@ -68,6 +68,8 @@
             background-color: #0056b3;
         }
         
+        
+        
     </style>
 </head>
 <body>
@@ -135,10 +137,12 @@
 </section>
 
 <div class="container">
-        <center><h2>Upload a Blog Post</h2></center><br>
-        <form action="upload_blog_post.php" method="post" enctype="multipart/form-data">
+        <center><h2>Upload a Blog</h2></center><br>
+        <form action="" method="post" enctype="multipart/form-data" onchange="validateImage()">
+        {% csrf_token %}
             <label for="title">Blog Title:</label>
             <input type="text" name="title" id="title" required>
+            <div id="title-error" style="color: red;"></div>
 
             <label for="publishingDate">Publishing Date:</label>
             <input type="date" name="publishingDate" id="publishingDate" required>
@@ -147,8 +151,12 @@
             <textarea name="description" id="description" rows="4" required></textarea>
 
             <label for="image">Blog Image (optional):</label>
-            <input type="file" name="image" id="image" accept="image/*"><br><br><br>
+            <input type="file" name="image" id="image" accept="image/*">
 
+            <p style="font-size: 14px; color: red;">
+            Max Size: 40KB, Max Dimensions: 400x300
+        </p><br><br>
+            <center><button type="reset">Reset</button><center><br>
             <center><button type="submit">Upload Blog Post</button></center>
         </form>
     </div>
@@ -176,6 +184,41 @@
         return true;
     }
 </script>
+
+<script>
+        function validateImage() {
+            var input = document.getElementById('image');
+            var file = input.files[0];
+
+            // Check if a file is selected
+            if (file) {
+                // Check file size (in bytes)
+                if (file.size > 40960) { // 40KB in bytes
+                    alert('Error: Image size exceeds 40KB. Please choose a smaller image.');
+                    input.value = ''; // Clear the file input
+                    return;
+                }
+
+                // Create an image element to get the dimensions
+                var img = new Image();
+                img.src = window.URL.createObjectURL(file);
+
+                img.onload = function () {
+                    // Check image dimensions
+                    if (img.width > 400 || img.height > 300) {
+                        alert('Error: Image dimensions exceed 400x300. Please choose a smaller image.');
+                        input.value = ''; // Clear the file input
+                    }
+                };
+
+                img.onerror = function () {
+                    console.log('Error loading image');
+                    alert('Error: Failed to load the image. Please choose a valid image.');
+                    input.value = ''; // Clear the file input
+                };
+            }
+        }
+    </script>
     <div class="row footer_2 mt-4 text-center">
     <div class="col-md-12">
 	 <ul>
@@ -191,6 +234,22 @@
 </section>
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<script>
+    const titleInput = document.getElementById("title");
+    const titleError = document.getElementById("title-error");
+
+    titleInput.addEventListener("input", function () {
+        if (titleInput.value.trim() === "" || titleInput.value.trimStart() !== titleInput.value) {
+            titleInput.setCustomValidity("Blog title cannot start with a space.");
+            titleError.textContent = "Blog title cannot start with a space.";
+        } else {
+            titleInput.setCustomValidity("");
+            titleError.textContent = "";
+        }
+    });
+</script>
+
 
 <script>
 window.onscroll = function() {myFunction()};

@@ -81,7 +81,10 @@
     border: 0;
     margin-bottom: 1rem;
 }
-
+label
+{
+  color: #007ae1;
+}
 
     </style>
 
@@ -196,8 +199,9 @@
 <h5 style="color:#a81c51">USER PROFILE</h5><BR>
 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
 </div>
-<h5 class="user-name">Yuki Hayashi</h5>
-<h6 class="user-email"><a href="/cdn-cgi/l/email-protection" class="cf_email" data-cfemail="473e322c2e070a263f30222b2b6924282a">[email&#160;protected]</a></h6>
+<h5 class="user-name">{{ user.username }}</h5>
+<h6 class="user-email">{{ user.email }}</a></h6>
+
 </div>
 <center><div>
 <h6><a class="button p-3 pt-2 pb-2" href="#">My Orders</a></h6><br>
@@ -214,30 +218,30 @@
 <div class="card-body">
 <div class="row gutters">
 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-<h6 class="mb-2 text-primary">Personal Details</h6>
-</div>
+<h6 class="mb-2 text-primary" style="font-size: 30px;">Personal Details</h6>
+</div><br><br><br>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="fullName">Full Name</label>
-<input type="text" class="form-control" id="fullName" placeholder="Enter full name">
+<input type="text" class="form-control" id="fullName" placeholder="Enter full name" value="{{ user.first_name }}">
 </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="eMail">Email</label>
-<input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
-</div>
+<input type="email" class="form-control" id="eMail" placeholder="Enter email ID" value="{{ user.email }}">
+</div><br><br>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="fullName">Username</label>
-<input type="text" class="form-control" id="fullName" placeholder="Enter Username">
+<input type="text" class="form-control" id="fullName" placeholder="Enter Username" value="{{ user.username }}">
 </div>
 </div>
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 <div class="form-group">
 <label for="phone">Phone</label>
-<input type="text" class="form-control" id="phone" placeholder="Enter phone number">
+<input type="text" class="form-control" id="phone" placeholder="Enter phone number" value="{{ user.phone }}">
 </div>
 </div>
 <!--<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">

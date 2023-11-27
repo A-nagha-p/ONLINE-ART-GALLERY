@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from store.models import CustomUser
 from django.http import HttpResponse
 from .models import Product
+from .models import Blog
+
 
 
 @never_cache
@@ -70,7 +72,7 @@ def artistprofile(request):
 @never_cache
 def register(request):
      if request.method == 'POST':
-        full_name = request.POST['full_name']
+        first_name = request.POST['full_name']
         email = request.POST['email']
         phone = request.POST['phone']
         username = request.POST['username']
@@ -83,7 +85,7 @@ def register(request):
             return render(request, 'register.html', {'error_message': 'Passwords do not match'})
 
         # Create a new user object
-        user = CustomUser.objects.create_user(username=username, email=email, password=password, user_type=user_type)
+        user = CustomUser.objects.create_user(username=username, email=email, password=password, user_type=user_type, phone=phone,first_name=first_name )
         # You may want to do additional processing here if needed
 
         return redirect('login')  # Redirect to login page after successful registration
@@ -142,9 +144,25 @@ def logout(request):
 @login_required(login_url='login')
 def admindash(request):
     if request.user.is_superuser:
+        # Get the count of users with user_type='user'
+        user_count = CustomUser.objects.filter(user_type='user').count()
+
+        # Get the count of users with user_type='artist'
+        artist_count = CustomUser.objects.filter(user_type='artist').count()
+
+        # Get the list of users excluding superusers
         users = CustomUser.objects.exclude(is_superuser=True)
-        return render(request, "admindash.html", {"users": users})
+
+        return render(request, "admindash.html", {"users": users, "user_count": user_count, "artist_count": artist_count})
+
     return redirect("home")
+#@never_cache
+#@login_required(login_url='login')
+#def admindash(request):
+ #   if request.user.is_superuser:
+  #      users = CustomUser.objects.exclude(is_superuser=True)
+   #     return render(request, "admindash.html", {"users": users})
+    #return redirect("home")
 
 @never_cache
 def addproduct(request):
@@ -189,7 +207,7 @@ def add_product(request):
         product_name = request.POST['productName']
         theme = request.POST['theme']
         art_type = request.POST['artType']
-        quantity = request.POST['quantity']
+        # quantity = request.POST['quantity']
         description = request.POST['description']
         price = request.POST['price']
         status = request.POST['status']
@@ -202,11 +220,12 @@ def add_product(request):
             product_name=product_name,
             theme=theme,
             art_type=art_type,
-            quantity=quantity,
+            # quantity=quantity,
             description=description,
             price=price,
             status=status,
-            product_image=product_image
+            product_image=product_image,
+            author=request.user
         )
         product.save()
 
@@ -268,6 +287,7 @@ def add_competition(request):
         time = request.POST['time']
         am_pm = request.POST['ampm']
         location = request.POST['location']
+        fee = request.POST['fee']
         image = request.FILES['productImage']  # Change 'image' to 'productImage'
 
         competition = Competition(
@@ -277,7 +297,9 @@ def add_competition(request):
             time=time,
             am_pm=am_pm,
             location=location,
-            image=image
+            fee=fee,
+            image=image,
+            author=request.user
         )
         competition.save()
 
@@ -286,6 +308,7 @@ def add_competition(request):
     return render(request, 'addcompetition.html')
 
 @never_cache
+@login_required
 def competition(request):
     # Fetch a list of competitions from the database
     competitions = Competition.objects.all()
@@ -299,6 +322,7 @@ def viewcompetition(request):
 
 
 @never_cache
+
 def viewcompetition(request):
     # Query competitions from the database
     competitions = Competition.objects.all()
@@ -309,7 +333,88 @@ def viewcompetition(request):
 
     return render(request, 'viewcompetition.html', context)
 
+@never_cache
+def adminviewproduct(request):
+    return render(request,'adminviewproduct.html')
 
+@never_cache
+def adminviewproduct(request):
+    # Query your products from the database
+    products = Product.objects.all()
+
+    context = {
+        'products': products,
+    }
+
+    return render(request, 'adminviewproduct.html', context)
+
+
+
+
+   
+
+
+@never_cache
+@login_required
+def blogupload(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        publishingDate = request.POST['publishingDate']
+        description = request.POST['description']
+        image = request.FILES.get('image', None)
+
+        # Validate form data
+        if not title or not publishingDate or not description:
+            messages.error(request, 'Please fill in all the required fields.')
+            return redirect('blogupload')
+
+        # Check if the logged-in user is an artist
+        if request.user.user_type != 'artist':
+            messages.error(request, 'Only artists can upload blogs.')
+            return redirect('blogupload')
+
+        # Create and save the blog
+        new_blog = Blog(
+            title=title,
+            publishingDate=publishingDate,
+            description=description,
+            image=image,
+            author=request.user
+        )
+        new_blog.save()
+
+        messages.success(request, 'Blog uploaded successfully!')
+        return redirect('blog')  # Redirect to the blog list page
+
+    return render(request, 'blogupload.html')
+@never_cache
+def blog(request):
+    # Fetch all blogs from the database
+    blogs = Blog.objects.all()
+
+    return render(request, 'blog.html', {'blogs': blogs})
+
+@never_cache
+def viewblogs(request):
+    blogs = Blog.objects.all()  # Fetch all blogs from the database
+    return render(request, 'viewblogs.html', {'blogs': blogs})
+
+
+
+@never_cache
+def delete_competition(request, competition_id):
+    # Get the competition object from the database
+    competition = get_object_or_404(Competition, id=competition_id)
+
+    # Check if the request method is POST
+    if request.method == 'POST':
+        # Delete the competition
+        competition.delete()
+        # Redirect to the competition list page or any other appropriate page
+        return redirect('competition')  # Replace 'competition_list' with the URL name of the page displaying the list of competitions
+
+    # Render a confirmation page if the request method is GET
+    return render(request, 'viewcompetition.html', {'competition': competition})
 
 
 

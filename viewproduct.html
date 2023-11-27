@@ -111,10 +111,11 @@
                 <th>Product Image</th>
                 <th>Theme</th>
                 <th>Art Type</th>
-                <th>Quantity</th>
+                {% comment %} <th>Quantity</th> {% endcomment %}
                 <th>Description</th>
                 <th>Price</th>
                 <th>Status</th>
+                <th>Artist</th>
             </tr>
         </thead>
         <tbody>
@@ -125,10 +126,11 @@
                 <td><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" class="img-fluid" ></td>
                 <td>{{ product.theme }}</td>
                 <td>{{ product.art_type }}</td>
-                <td>{{ product.quantity }}</td>
+                {% comment %} <td>{{ product.quantity }}</td> {% endcomment %}
                 <td>{{ product.description }}</td>
                 <td>Rs.{{ product.price }}</td>
                 <td>{{ product.get_status_display }}</td>
+                <td>{{ product.author.username }}</td>
                 
                 
             </tr>

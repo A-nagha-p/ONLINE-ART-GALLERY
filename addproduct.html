@@ -172,8 +172,7 @@
     <option value="landscape_painting">Landscape Painting</option>
 </select>
 
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" id="quantity" required>
+            
 
             <label for="description">Description:</label>
             <textarea name="description" id="description" rows="4"></textarea>
@@ -188,7 +187,7 @@
                 <option value="out-of-stock">Out of Stock</option>
             </select>
 
-            <label for="productImage">Product Image (Max Size: 40KB, Max Dimensions: 400x300):</label>
+            <label for="productImage" style="color: red;">Product Image (Max Size: 40KB, Max Dimensions: 400x300,Min Dimensions: 100x100):</label>
             <input type="file" name="productImage" id="productImage" accept="image/*" onchange="checkImage(this)" required><br><br>
 
             <button type="submit">Add Product</button>&nbsp; &nbsp; <button type="reset">Reset</button>
@@ -277,6 +276,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var priceInput = document.getElementById('price');
+    var priceError = document.getElementById('priceError');
+
+    priceInput.addEventListener('input', function () {
+        var inputValue = parseFloat(priceInput.value);
+
+        if (isNaN(inputValue) || inputValue <= 0) {
+            priceInput.classList.add('error');
+            priceError.textContent = "Price should be a positive value greater than zero.";
+            priceError.style.color = "red"; // Set the error message text color to red
+        } else {
+            priceInput.classList.remove('error');
+            priceError.textContent = ""; // Clear the error message
+        }
+    });
+});
+</script>
+
 
 
 
