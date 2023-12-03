@@ -521,6 +521,11 @@ body {
                 <td>Rs.{{ product.price }}</td>
                 <td>{{ product.get_status_display }}</td>
                 <td>{{ product.author.username }}</td>
+                <td>
+            <button class="btn btn-danger" onclick="confirmDelete({{ product.id }})">
+                Delete
+            </button>
+        </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -529,6 +534,16 @@ body {
 
             </div>
         </div>
+
+        <script>
+    function confirmDelete(productId) {
+        var result = confirm("Are you sure you want to delete this product?");
+        if (result) {
+            // Assuming you have a URL pattern named 'delete_product' for deleting a product
+            window.location.href = "/delete_product/" + productId + "/";
+        }
+    }
+</script>
     
         <script src="./index.js"></script>
     </body>

@@ -417,5 +417,15 @@ def delete_competition(request, competition_id):
     return render(request, 'viewcompetition.html', {'competition': competition})
 
 
+@login_required
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    product.delete()
+
+    messages.success(request, "Product deleted successfully.")
+    return redirect('adminviewproduct')  
+
+
 
 
