@@ -55,9 +55,6 @@
 		<li class="nav-item">
 			<a class="nav-link" href="blog.html">Blog </a>
 		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" href="contact.html">Contact </a>
-		  </li>
 		
 		<!--<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -73,30 +70,17 @@
 			<a class="nav-link" href="Events.html">Events </a>
 		  </li>-->
 
-		  <!--<li class="nav-item">
+		  <li class="nav-item">
 			<a class="nav-link" href="artstore.html">Art Store </a>
-		  </li>-->
+		  </li>
 				
-			<li class="nav-item dropdown">
-    {% if user.is_authenticated %}
-        <a class="nav-link dropdown-toggle btn btn-primary d-flex align-items-center justify-content-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user"></i>
-            <p class="m-0">{{ user.username }}</p>
-        </a>
+		<li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact</a>
+        </li>
 
-        <div class="dropdown-menu" aria-labelledby="userDropdown">
-            {% if user.user_type == 'user' %}
-                <a class="dropdown-item" href="{% url 'userprofile' %}">View Profile</a>
-            {% elif user.user_type == 'artist' %}
-                <a class="dropdown-item" href="{% url 'artistprofile' %}">View Profile</a>
-            {% endif %}
-            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-        </div>
-    {% else %}
-        <a href="{% url 'login' %}" class="btn btn-primary ml-lg-3">Login/Register</a>
-    {% endif %}
-</li>
-
+		<li class="nav-item">
+			<a class="nav-link btn btn-info" style="font-weight: bold;" href="login.html">Login/Register </a>
+		  </li>
 		  <!--<li class="nav-item">
 			<a class="nav-link" href="register.html">Register</a>
 		  </li>-->
@@ -471,8 +455,6 @@
    </div>
  </div>
 </section>
-<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 <script>
 window.onscroll = function() {myFunction()};

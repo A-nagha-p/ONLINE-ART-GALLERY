@@ -55,9 +55,6 @@
 		<li class="nav-item">
 			<a class="nav-link" href="blog.html">Blog </a>
 		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" href="contact.html">Contact </a>
-		  </li>
 		
 		<!--<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -73,29 +70,16 @@
 			<a class="nav-link" href="Events.html">Events </a>
 		  </li>-->
 
-		  <!--<li class="nav-item">
+		  <li class="nav-item">
 			<a class="nav-link" href="artstore.html">Art Store </a>
-		  </li>-->
+		  </li>
 				
-		<li class="nav-item dropdown">
-    {% if user.is_authenticated %}
-        <a class="nav-link dropdown-toggle btn btn-primary d-flex align-items-center justify-content-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user"></i>
-            <p class="m-0">{{ user.username }}</p>
-        </a>
-
-        <div class="dropdown-menu" aria-labelledby="userDropdown">
-            {% if user.user_type == 'user' %}
-                <a class="dropdown-item" href="{% url 'userprofile' %}">View Profile</a>
-            {% elif user.user_type == 'artist' %}
-                <a class="dropdown-item" href="{% url 'artistprofile' %}">View Profile</a>
-            {% endif %}
-            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-        </div>
-    {% else %}
-        <a href="{% url 'login' %}" class="btn btn-primary ml-lg-3">Login/Register</a>
-    {% endif %}
-</li>
+		<li class="nav-item">
+          <a class="nav-link active" href="contact.html">Contact</a>
+        </li>
+		<li class="nav-item">
+			<a class="nav-link btn btn-info" style="font-weight: bold;" href="login.html">Login/Register </a>
+		  </li>
 		  <!--<li class="nav-item">
 			<a class="nav-link" href="register.html">Register</a>
 		  </li>-->
@@ -133,12 +117,12 @@
    </div>
    <center><div class="col-md-6">
     <div class="contact_1r">
-	 <h3 class="mb-4" style="font-size: 40px;">MODERN ART GALLERY</h3>
-	 <p class="mb-4"><i class="fa fa-map-marker me-2 col_pink"></i> <span class="text-white fw-bold me-2">Address:</span> Z793 STower Suat, 26 Knockland, DB 8513 INDIA</p>
-	 <p class="mb-4"><i class="fa fa-phone me-2 col_pink"></i> <span class="text-white fw-bold me-2">Phone:</span> +91 7348563749</p>
-	 <p class="mb-4"><i class="fa fa-paperclip me-2 col_pink"></i> <span class="text-white fw-bold me-2">Fax:</span> +91 737563829</p>
-	 <p class="mb-4"><i class="fa fa-envelope me-2 col_pink"></i> <span class="text-white fw-bold me-2">Email:</span> <a href="#">modern@gmail.com</a></p>
-	 <p><i class="fa fa-globe me-2 col_pink"></i> <span class="text-white fw-bold me-2">Web:</span> <a href="#">modern@gmail.com</a></p>
+	 <h3 class="mb-4">MODERN ART GALLERY</h3>
+	 <p class="mb-4"><i class="fa fa-map-marker me-2 col_pink"></i> <span class="text-white fw-bold me-2">Address:</span> Z793 STower Suat, 26 Knockland, DB 8513 UK</p>
+	 <p class="mb-4"><i class="fa fa-phone me-2 col_pink"></i> <span class="text-white fw-bold me-2">Phone:</span> +123 123 456</p>
+	 <p class="mb-4"><i class="fa fa-paperclip me-2 col_pink"></i> <span class="text-white fw-bold me-2">Fax:</span> +123 123 456</p>
+	 <p class="mb-4"><i class="fa fa-envelope me-2 col_pink"></i> <span class="text-white fw-bold me-2">Email:</span> <a href="#">info@gmail.com</a></p>
+	 <p><i class="fa fa-globe me-2 col_pink"></i> <span class="text-white fw-bold me-2">Web:</span> <a href="#">info@gmail.com</a></p>
 	 <ul class="social-network social-circle mb-0 mt-4">
 					<li><a href="#" class="icoRss" title="Rss"><i class="fa fa-skype"></i></a></li>
 					<li><a href="#" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
@@ -148,8 +132,8 @@
 				</ul>
 	</div>
    </div></center>
-  </div><br><br><br><br><br><br><br><br><br>
-  <!--<div class="row contact_2 mt-4">
+  </div>
+  <div class="row contact_2 mt-4">
    <div class="col-md-9">
     <div class="contact_2l row">
 	 <div class="col-md-12">
@@ -181,14 +165,14 @@
 	  </div>
 	 </div> 
 	</div>
-   </div>-->
-   <!--<div class="col-md-3">
+   </div>
+   <div class="col-md-3">
     <div class="contact_2r">
 	  <h5 class="mb-3">LONDON OFFICE</h5>
 	  <p class="font_14"><i class="fa fa-car col_pink me-1"></i> 111 Queen Sv, WIC 1, India</p>
-	  <p class="font_14"><i class="fa fa-phone col_pink me-1"></i> +913496758325</p>
-	   <p class="font_14"><i class="fa fa-globe col_pink me-1"></i> <a href="#">modern@gmail.com</a></p>
-	    <p class="font_14"><i class="fa fa-envelope col_pink me-1"></i> <a href="#">modern@gmail.com</a></p>
+	  <p class="font_14"><i class="fa fa-phone col_pink me-1"></i> +123 123 456</p>
+	   <p class="font_14"><i class="fa fa-globe col_pink me-1"></i> <a href="#">info@gmail.com</a></p>
+	    <p class="font_14"><i class="fa fa-envelope col_pink me-1"></i> <a href="#">info@gmail.com</a></p>
 		<h5 class="mb-3 mt-4">BUSINESS HOURS</h5>
 		<p class="font_14">Hotline is available for 24 hours a day!..</p>
 		<p class="font_14">Monday - Friday : <span class="fw-bold text-white">9am to 7pm</span></p>
@@ -198,7 +182,7 @@
    </div>
   </div>
  </div>
-</section>-->
+</section>
 
 <!--<section id="footer" class="pt-3 pb-3">
  <div class="container-fluid">
@@ -326,8 +310,6 @@
  </div>
 </section>
 
-<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script>
 window.onscroll = function() {myFunction()};
 

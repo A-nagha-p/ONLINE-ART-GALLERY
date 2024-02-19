@@ -43,7 +43,6 @@ body {
 
 </head>
 <body>
-{% include "messages.html" %}
 <div class="main clearfix position-relative">
  <div class="main_1 clearfix position-absolute top-0 w-100">
    <section id="header" style="background-color: rgba(0, 0, 0, 0.496);">
@@ -57,10 +56,10 @@ body {
       <ul class="navbar-nav mb-0 ms-auto">
 	    
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
         </li>
 		<li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About </a>
+          <a class="nav-link" href="about.html">About </a>
         </li>
 		
 		<li class="nav-item dropdown">
@@ -68,29 +67,47 @@ body {
             Events
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{% url 'exhibition' %}">Exhibitions</a></li>
-            <li><a class="dropdown-item border-0" href="{% url 'competition' %}">competitions</a></li>
+            <li><a class="dropdown-item" href="exhibition.html">Exhibitions</a></li>
+            <li><a class="dropdown-item border-0" href="competition.html">competitions</a></li>
           </ul>
         </li>
 		
-		
+		<!--<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% static '/#' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Blog
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% static '/blog.html' %}"> Blog</a></li>
+            <li><a class="dropdown-item border-0" href="{% static '/blog_detail.html' %}"> Blog Detail</a></li>
+          </ul>
+        </li>-->
         
 		<li class="nav-item">
-			<a class="nav-link" href="{% url 'blog' %}">Blog </a>
+			<a class="nav-link" href="blog.html">Blog </a>
 		  </li>
 		
-		
+		<!--<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% static '/#' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Pages
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% static '/cart.html' %}"> Shopping Cart</a></li>
+            <li><a class="dropdown-item border-0" href="{% static '/checkout.html' %}"> Checkout</a></li>
+          </ul>
+        </li>-->
+
+		<!--<li class="nav-item">
+			<a class="nav-link" href="Events.html">Events </a>
+		  </li>-->
+		  <li class="nav-item">
+			<a class="nav-link" href="artstore.html">Art Store </a>
+		  </li>
 				
 		<li class="nav-item">
-          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+          <a class="nav-link" href="contact.html">Contact</a>
         </li>
 		<li class="nav-item">
-    {% if user.is_authenticated %}
-    <a href="{% url 'logout' %}" class="btn btn-primary ml-lg-3">Logout</a>
-    {% else %}
-    <a href="{% url 'login' %}" class="btn btn-primary ml-lg-3">Login/Register</a>
-    {% endif %}
-			<!--<a class="nav-link btn btn-info" style="font-weight: bold;" href="login.html">Login/Register</a>-->
+			<a class="nav-link btn btn-info" style="font-weight: bold;" href="login.html">Login/Register </a>
 		  </li>
 		  <!--<li class="nav-item">
 			<a class="nav-link" href="register.html">Register</a>
@@ -175,7 +192,70 @@ body {
      Tel: +91-9712979034</p>
     </div>
    </div>
-   
+   <!--<div class="col-md-3">
+    <div class="footer_1i">
+     <hr class="line_1">
+     <h5 class="mb-3">RECENT WORKS</h5>
+     <div class="footer_1i1 row">
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/30.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/31.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/32.jpg'%}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+     </div>
+     <div class="footer_1i1 row">
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/33.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/34.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+      <div class="col-md-4 col-4 p-0">
+       <div class="footer_1i1i">
+       <div class="grid clearfix">
+           <figure class="effect-jazz mb-0">
+           <a href="#"><img src="{% static '/img/35.jpg' %}" class="w-100" alt="abc"></a>
+           </figure>
+         </div>
+     </div>
+      </div>
+     </div>
+    </div>
+   </div>-->
    &nbsp;&nbsp;&nbsp;&nbsp;<div class="col-md-3">
     <div class="footer_1i">
      <hr class="line_1">
@@ -185,11 +265,32 @@ body {
      <li class="d-inline-block"><a class="d-block" href="#">Blog</a></li>
      <li class="d-inline-block"><a class="d-block" href="#">Events</a></li>
      <li class="d-inline-block"><a class="d-block" href="#">Contact Us</a></li>
-     
+     <!--<li class="d-inline-block"><a class="d-block" href="#">Design</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Experiment</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">News</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Expertize</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Express</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Share</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Sustain</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Video</a></li>
+     <li class="d-inline-block"><a class="d-block" href="#">Youtube</a></li>-->
       </ul>
     </div>
    </div>
-  
+   <!--&nbsp;&nbsp;&nbsp;&nbsp;<div class="col-md-3">
+    <div class="footer_1i">
+     <hr class="line_1">
+     <h5 class="mb-3">RECENT NEWS</h5>
+      <p class="font_14 mb-2"><a href="#">INTEGER AT DIAM GRAVIDA FRINGILLA NIBH PRETI PURUS</a></p>
+     <h6 class="col_light font_14"><i class="fa fa-clock-o col_pink me-1"></i> May 18 <a class="col_light" href="#"><i class="fa fa-comment-o col_pink me-1 ms-3"></i> 2</a></h6>
+     <hr>
+      <p class="font_14 mb-2"><a href="#">DONEC QUIS EX VEL TINCIDUNT</a></p>
+     <h6 class="col_light font_14"><i class="fa fa-clock-o col_pink me-1"></i> July 19 <a class="col_light" href="#"><i class="fa fa-comment-o col_pink me-1 ms-3"></i> 2</a></h6>
+     <hr>
+     <p class="font_14 mb-2"><a href="#">PRAESENT IACULIS TORTOR VIVERRA</a></p>
+     <h6 class="col_light font_14"><i class="fa fa-clock-o col_pink me-1"></i> June 17 <a class="col_light" href="#"><i class="fa fa-comment-o col_pink me-1 ms-3"></i> 2</a></h6>
+    </div>
+   </div>-->
     </div>
     <div class="row footer_2 mt-4 text-center">
      <div class="col-md-12">
