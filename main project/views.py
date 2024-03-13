@@ -16,6 +16,14 @@ from django.http import JsonResponse
 from decimal import Decimal
 from .models import Order
 import razorpay
+from .models import Bid
+from .models import AuctionProduct
+from django.utils import timezone
+
+from django.db.models import Q
+
+
+
 
 
 @never_cache
@@ -460,3 +468,189 @@ def payment_success(request):
 
     # Redirect to the user profile or any other desired page
     return redirect('userprofile')
+
+
+@never_cache
+def viewpayment(request):
+    orders = Order.objects.all()
+    return render(request, 'viewpayment.html', {'orders': orders})
+
+
+
+#@never_cache
+#def addauction(request):
+ #   return render(request,'addauction.html')
+
+
+@never_cache
+def addauction(request):
+    latest_auction_product = AuctionProduct.objects.latest('id')  # Assuming 'id' is the primary key
+    if request.method == 'POST':
+        # Extract form data from the request
+        product_name = request.POST['product_name']
+        about_product = request.POST['about_product']
+        current_price = request.POST['current_price']
+        product_image = request.FILES['product_image']
+        auction_start_datetime=request.POST['auction_start_datetime']
+        auction_end_datetime=request.POST['auction_end_datetime']
+        print(auction_start_datetime,auction_end_datetime,"printeddddddddddddddddddddddddd")
+        
+        # Get the current date and time
+        
+
+        # Create a new AuctionProduct instance
+        auction_product = AuctionProduct(
+            product_name=product_name,
+            about_product=about_product,
+            auction_start_datetime=auction_start_datetime,  # Set the start datetime to current time
+            auction_end_datetime=auction_end_datetime,  # Set the end datetime to current time
+            current_price=current_price,
+            product_image=product_image,
+            author=request.user
+        )
+        auction_product.save()
+
+        # Redirect to a success page or do something else
+        messages.success(request, 'Product added successfully!')
+        return redirect('addauction')  # Redirect to the same page after adding product
+
+    # If the request method is not POST, render the form page
+    context = {'latest_auction_product': latest_auction_product}
+    return render(request, 'addauction.html', context)
+
+
+@never_cache
+def auction(request):
+    # Exclude auction products with any null or empty fields
+    auction_products = AuctionProduct.objects.exclude(
+        Q(product_name='') | 
+        Q(about_product='') | 
+        Q(auction_start_datetime=None) | 
+        Q(auction_end_datetime=None) | 
+        Q(current_price=None) | 
+        Q(product_image='')
+    )
+
+    # Render the auction.html template with the filtered auction products in the context
+    return render(request, 'auction.html', {'auction_products': auction_products})
+
+
+
+
+
+#@never_cache
+#def adminauction(request):
+ #   return render(request,'adminauction.html')
+
+
+@never_cache
+def adminauction(request):
+    if request.method == 'POST':
+        auction_start_datetime_str = request.POST.get('auction_start_datetime')
+        auction_end_datetime_str = request.POST.get('auction_end_datetime')
+        print("cccccccccccc")
+        print(auction_start_datetime_str)
+        print(auction_end_datetime_str)
+        
+        # Create AuctionProduct instance
+        auction_product = AuctionProduct(
+            auction_start_datetime=auction_start_datetime_str,
+            auction_end_datetime=auction_end_datetime_str
+        )
+        auction_product.save()
+
+        return redirect('adminauction')  # Redirect to the same page after submitting the form
+
+    return render(request, 'adminauction.html')
+
+
+@never_cache
+def editdateandtime(request):
+    auction_products = AuctionProduct.objects.all()
+    return render(request, 'editdateandtime.html', {'auction_products': auction_products})
+
+@never_cache
+@login_required
+def auction_product_detail(request, product_id):
+    # Assuming product_id is the primary key of the AuctionProduct model
+    auction_product = AuctionProduct.objects.get(pk=product_id)
+    bids = Bid.objects.filter(product_id=product_id).order_by('-bid_amount') 
+    context={'auction_product': auction_product,'bids':bids}
+    return render(request, 'auctiondetails.html',context)
+
+from django.contrib.auth import get_user_model
+User=get_user_model()
+
+@never_cache
+def place_bid(request, product_id):
+    # Attempt to retrieve the product with the given ID from the database
+    product = get_object_or_404(AuctionProduct, pk=product_id)
+
+    if request.method == 'POST':
+        # Assuming bid amount and name are sent via POST request
+        bid_amount = request.POST.get('bidAmount')
+        
+
+        # Create a new bid object
+        bid = Bid(
+            user=request.user,
+            product=product,
+            name="null",
+            bid_amount=bid_amount,
+            timestamp=timezone.now()
+        )
+        bid.save()
+
+        return redirect('auction_product_detail', product_id=product_id)  # Redirect to product detail view after placing bid
+    else:
+        # If the request method is not POST, render the template with the product details
+        return render(request, 'auctiondetails.html', {'product': product})
+
+@never_cache
+def auctionwinner(request):
+    # Retrieve all Bid objects
+    all_bids = Bid.objects.all()
+
+    # Create a dictionary to store the highest bid object for each product
+    max_bid_per_product = {}
+
+    # Iterate through all bid objects to find the maximum bid for each product
+    for bid in all_bids:
+        product_id = bid.product_id
+        if product_id not in max_bid_per_product or bid.bid_amount > max_bid_per_product[product_id].bid_amount:
+            max_bid_per_product[product_id] = bid
+
+    # Get the highest bid objects for each product
+    highest_bids = max_bid_per_product.values()
+
+    # Pass the bid objects to the template context
+    context = {
+        'all_bids': all_bids,
+        'highest_bids': highest_bids,
+    }
+
+    # Render the template with the context
+    return render(request, 'auctionwinner.html', context)
+
+
+
+@never_cache
+def watermark(request):
+    return render(request,'watermark.html')
+
+
+@never_cache
+def adminauctiondelete(request):
+    # Exclude auction products with any null or empty fields
+    auction_products = AuctionProduct.objects.exclude(
+        Q(product_name='') | 
+        Q(about_product='') | 
+        Q(auction_start_datetime=None) | 
+        Q(auction_end_datetime=None) | 
+        Q(current_price=None) | 
+        Q(product_image='') |
+        Q(author=None)
+    )
+
+    # Render the adminauctiondelete.html template with the filtered auction products in the context
+    return render(request, 'adminauctiondelete.html', {'auction_products': auction_products})

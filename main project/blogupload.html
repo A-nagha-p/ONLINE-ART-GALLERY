@@ -16,28 +16,60 @@
     <script src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
 
-    <!-- code for share -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .product-table {
+         
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: black;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
             width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
         }
 
-        .product-table th {
-            text-align: left;
-        }
-
-        .product-table td {
+        input[type="file"] {
+            width: 100%;
             padding: 5px;
+            margin: 5px 0;
+            color: black;
         }
 
-        .product-table img {
-            max-width: 100%;
-            height: auto;
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
         }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        
+        
+        
     </style>
 </head>
 <body>
@@ -107,50 +139,90 @@
     </nav>
 </section>
 
-
-
-
-<!-- Your existing HTML code for the navigation section -->
-
 <div class="container">
-    <center><h2>BLOGS</h2><br><br><br></center>
-    
-    {% if blogs %}
-        {% for blog in blogs %}
-            <div class="blog-item">
-                <h3>{{ blog.title }}</h3>
-                <p>{{ blog.publishingDate }}</p>
-                <p>{{ blog.description }}</p>
+        <center><h2>Upload a Blog</h2></center><br>
+        <form action="" method="post" enctype="multipart/form-data" onchange="validateImage()">
+        {% csrf_token %}
+            <label for="title">Blog Title:</label>
+            <input type="text" name="title" id="title" required>
+            <div id="title-error" style="color: red;"></div>
 
-				<p>Author: {{ blog.author.username }}</p>
-                
-                {% if blog.image %}
-                    <img src="{{ blog.image.url }}" alt="{{ blog.title }}"><br><br>
-                {% endif %}
+            <label for="publishingDate">Publishing Date:</label>
+            <input type="date" name="publishingDate" id="publishingDate" required>
 
-                 <!-- Share Button -->
-             <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn-share">
-    <i class="fab fa-facebook-f"></i>
-</a>
-<a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ product.product_name }}" target="_blank" class="btn-share">
-    <i class="fab fa-twitter"></i>
-</a>
-<a href="mailto:?subject={{ product.product_name }}&body=Check out this product: {{ request.build_absolute_uri }}" class="btn-share">
-    <i class="fas fa-envelope"></i>
-</a>
-<a href="https://www.instagram.com/?url={{ request.build_absolute_uri }}" target="_blank" class="btn-share">
-    <i class="fab fa-instagram"></i>
-</a>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No blogs available.</p>
-    {% endif %}
+            <label for="description">Blog Description:</label>
+            <textarea name="description" id="description" rows="4" required></textarea>
 
-</div>
+            <label for="image">Blog Image (optional):</label>
+            <input type="file" name="image" id="image" accept="image/*">
 
+            <p style="font-size: 14px; color: red;">
+            Max Size: 40KB, Max Dimensions: 400x300
+        </p><br><br>
+            <center><button type="reset">Reset</button><center><br>
+            <center><button type="submit">Upload Blog Post</button></center>
+        </form>
+    </div>
+    <script>
+    function validateForm() {
+        var title = document.getElementById("title").value;
+        var publishingDate = document.getElementById("publishingDate").value;
+        var description = document.getElementById("description").value;
 
-<div class="row footer_2 mt-4 text-center">
+        if (title.trim() === "") {
+            alert("Blog Title is required");
+            return false;
+        }
+
+        if (publishingDate.trim() === "") {
+            alert("Publishing Date is required");
+            return false;
+        }
+
+        if (description.trim() === "") {
+            alert("Blog Description is required");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+<script>
+        function validateImage() {
+            var input = document.getElementById('image');
+            var file = input.files[0];
+
+            // Check if a file is selected
+            if (file) {
+                // Check file size (in bytes)
+                if (file.size > 40960) { // 40KB in bytes
+                    alert('Error: Image size exceeds 40KB. Please choose a smaller image.');
+                    input.value = ''; // Clear the file input
+                    return;
+                }
+
+                // Create an image element to get the dimensions
+                var img = new Image();
+                img.src = window.URL.createObjectURL(file);
+
+                img.onload = function () {
+                    // Check image dimensions
+                    if (img.width > 400 || img.height > 300) {
+                        alert('Error: Image dimensions exceed 400x300. Please choose a smaller image.');
+                        input.value = ''; // Clear the file input
+                    }
+                };
+
+                img.onerror = function () {
+                    console.log('Error loading image');
+                    alert('Error: Failed to load the image. Please choose a valid image.');
+                    input.value = ''; // Clear the file input
+                };
+            }
+        }
+    </script>
+    <div class="row footer_2 mt-4 text-center">
     <div class="col-md-12">
 	 <ul>
 	  <li class="d-inline-block me-3 font_14"><a href="#">CONTACT</a></li>
@@ -166,6 +238,29 @@
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
+<script>
+    const titleInput = document.getElementById("title");
+    const titleError = document.getElementById("title-error");
+
+    titleInput.addEventListener("input", function () {
+        if (titleInput.value.trim() === "" || titleInput.value.trimStart() !== titleInput.value) {
+            titleInput.setCustomValidity("Blog title cannot start with a space.");
+            titleError.textContent = "Blog title cannot start with a space.";
+        } else {
+            titleInput.setCustomValidity("");
+            titleError.textContent = "";
+        }
+    });
+</script>
+
+<!--<script>
+  // Get the current date in the format "YYYY-MM-DD"
+  var today = new Date().toISOString().split('T')[0];
+
+  // Set the max and min attributes of the input element to today's date
+  document.getElementById('publishingDate').setAttribute('max', today);
+  document.getElementById('publishingDate').setAttribute('min', today);
+</script>-->
 
 
 <script>

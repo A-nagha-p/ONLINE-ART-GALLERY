@@ -12,12 +12,23 @@
 	<link href="{% static '/css/product.css' %}" rel="stylesheet">
 	<link href="{% static '/https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&display=swap' %}" rel="stylesheet">
 	<script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+	<!-- Include Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <!-- code for share -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- code for share -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<style>
+.btn-pink {
+        background-color: #a81c51;
+        color: white; /* Text color */
+        /* Add any other styling properties as needed */
+    }
+    </style>
 
 </head>
 <body>
@@ -32,10 +43,10 @@
       <ul class="navbar-nav mb-0 ms-auto">
 	    
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="index.html">Home</a>
+          <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
         </li>
 		<li class="nav-item">
-          <a class="nav-link" href="about.html">About </a>
+          <a class="nav-link" href="{% url 'about' %}">About </a>
         </li>
 		
 		<li class="nav-item dropdown">
@@ -43,8 +54,8 @@
             Events
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="exhibition.html"> Exhibitions</a></li>
-            <li><a class="dropdown-item border-0" href="competition.html">competitions</a></li>
+            <li><a class="dropdown-item" href="{% url 'exhibition' %}"> Exhibitions</a></li>
+            <li><a class="dropdown-item border-0" href="{% url 'competition' %}"> competitions</a></li>
           </ul>
         </li>
 		
@@ -57,14 +68,15 @@
             <li><a class="dropdown-item border-0" href="blog_detail.html"> Blog Detail</a></li>
           </ul>
         </li>-->
+
 		<li class="nav-item">
-			<a class="nav-link" href="blog.html">Blog </a>
+			<a class="nav-link" href="{% url 'blog' %}">Blog </a>
 		  </li>
-      <li class="nav-item">
-			<a class="nav-link" href="auction.html">Auction </a>
+          <li class="nav-item">
+			<a class="nav-link" href="{% url 'auction' %}">Auction </a>
 		  </li>
-		  <li class="nav-item">
-			<a class="nav-link" href="contact.html">Contact </a>
+		   <li class="nav-item">
+			<a class="nav-link" href="{% url 'contact' %}">Contact </a>
 		  </li>
 		
 		<!--<li class="nav-item dropdown">
@@ -107,72 +119,42 @@
 		  <!--<li class="nav-item">
 			<a class="nav-link" href="register.html">Register</a>
 		  </li>-->
-        </li>
+		
 		
       </ul>
     </div>
   </div>
 </nav>
 </section>
+<section>
+<center><h1>AUCTION</h1></center>
+<div class="row competition-container">
+    {% for auction_product in auction_products %}
+    <div class="col-md-3">
+        <div class="auction-card">
+            <a href="{% url 'auction_product_detail' auction_product.id %}">
+            {% if auction_product.product_image %}
+                 <img src="{{ auction_product.product_image.url }}" alt="{{ auction_product.product_name }}" class="img-fluid" oncontextmenu="return false;">
+                {% else %}
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="img-fluid" oncontextmenu="return false;">
+                {% endif %}
+            </a>
+            <h4>{{ auction_product.product_name }}</h4>
+                    <p>Artist: {{ auction_product.author.username }}</p>
+                    <!--<p>Description: {{ auction_product.about_product }}</p>-->
+                    <p>Start Date: {{ auction_product.auction_start_datetime }}</p>
+                    <p>End Date: {{ auction_product.auction_end_datetime }}</p>
+                    <p>Current Price: {{ auction_product.current_price }}</p>
+                    <!--<button class="btn btn-pink">Bid Now</button>-->
 
-<section id="center" class="center_o bg_gray pt-2 pb-2">
- <div class="container-xl">
-  <div class="row center_o1">
-   <div class="col-md-5">
-     <div class="center_o1l">
-	  <h2 class="mb-0">EXHIBITION</h2>
-	 </div>
-   </div>
-   <div class="col-md-7">
-     <div class="center_o1r text-end">
-	  <h6 class="mb-0"><a href="#">Home</a> <span class="me-2 ms-2"><i class="fa fa-caret-right"></i></span> Product</h6>
-	 </div>
-   </div>
-  </div>
- </div>
-</section>
 
-<section id="product" class="p_4">
- <div class="container-xl">
-  <div class="row product_1">
-   <div class="col-md-9">
-     <!--<div class="product_1l">
-      <p class="mb-0 mt-2">Showing 1-12 of 23 results</p>
-	 </div>-->
-   </div>
-   <!--<div class="col-md-3">
-     <div class="product_1r">
-        <select name="categories" class="form-select bg_gray col_light" required="">
-			<option value="">Default Sorting</option>
-			<option>Pencil Drawing</option>
-			<option>Oil Painting</option>
-			<option>Watercolor Painting</option>
-			<option>Acrylic Painting</option>
-			<option>Pastel Drawing</option>
-			<option>Landscape Painting</option>
-			</select>
-	 </div>-->
-   </div>
-  </div>
-  
-<div class="row product-container">
-            {% for product in products %}
-                <div class="col-md-3">
-                    <div class="product-card">
-                        <a href="{% url 'product_details' product.id %}">
-                            <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" class="img-fluid" oncontextmenu="return false;">
-                        </a>
-                        <h4>{{ product.product_name }}</h4>
-                        <p>Price: Rs.{{ product.price }}</p>
-                        <p>{{ product.get_status_display }}</p>
-                        <p>Artist: {{ product.author.username }}</p>
 
-                        <a href="#" class="btn-like">
-    <i class="fas fa-heart"></i> Like
-</a>&nbsp;&nbsp;
-        
-        <!-- Share Button -->
-      <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn-share">
+            <!--<a href="#" class="btn-like">
+                <i class="fa fa-thumbs-up"></i> Like
+            </a>&nbsp;&nbsp;-->
+
+            <!-- Share Button -->
+             <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn-share">
     <i class="fab fa-facebook-f"></i>
 </a>
 <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ product.product_name }}" target="_blank" class="btn-share">
@@ -184,41 +166,20 @@
 <a href="https://www.instagram.com/?url={{ request.build_absolute_uri }}" target="_blank" class="btn-share">
     <i class="fab fa-instagram"></i>
 </a>
-
-
-
-                    </div>
-                </div>
-            {% endfor %}
+            <!--<h6 class="font_14 mb-0 mt-4"><a class="button p-3 pt-2 pb-2" href="#">APPLY</a></h6><br>-->
         </div>
+    </div>
+    {% endfor %}
+</div>
     </div>
 </section>
 
-  
 
 
 
 
-
-
-
-   </div>
-   <div class="row footer_2 mt-4 text-center">
-    <div class="col-md-12">
-	 <ul>
-	  <li class="d-inline-block me-3 font_14"><a href="#">CONTACT</a></li>
-	  <li class="d-inline-block me-3 font_14"><a href="#">PRIVACY POLICY</a></li>
-	  <li class="d-inline-block me-3 font_14"><a href="#">TERMS OF USE</a></li>
-	  <li class="d-inline-block font_14"><a href="#">FAQ</a></li>
-	 </ul>
-	 <p class="mb-0">© 2013 Your Website Name. All Rights Reserved | Design by <a class="col_pink" href="http://www.templateonweb.com">TemplateOnWeb</a></p>
-	</div>
-   </div>
- </div>
-</section>
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
 <script>
 window.onscroll = function() {myFunction()};
 

@@ -7,6 +7,8 @@ from .views import delete_competition
 
 from .views import razorpay
 
+from .views import place_bid
+
 urlpatterns = [
     path('',views.index,name="home"),
     path('index.html',views.index,name="home"),
@@ -75,6 +77,38 @@ urlpatterns = [
     path('payment_success/<int:paymentid>/<int:userid>/<str:amount>/', views.payment_success, name='payment_success'),
 
    
+
+   path('viewpayment.html',views.viewpayment,name="viewpayment"),
+
+   path('addauction.html',views.addauction,name="addauction"),
+
+   path('addauction.html', views.addauction, name='addauction'),
+
+
+   path('auction.html',views.auction,name="auction"),
+
+
+   path('adminauction.html',views.adminauction,name="adminauction"),
+
+   path('editdateandtime.html',views.editdateandtime,name="editdateandtime"),
+
+   path('auction-product/<int:product_id>/', views.auction_product_detail, name='auction_product_detail'),
+
+   
+   path('place_bid/<int:product_id>/', views.place_bid, name='place_bid'),
+
+
+   path('auctionwinner.html',views.auctionwinner,name="auctionwinner"),
+
+
+
+   path('watermark.html',views.watermark,name="watermark"),
+
+
+   path('adminauctiondelete.html',views.adminauctiondelete,name="adminauctiondelete"),
+   
+
+
 
     
 

@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Art Web</title>
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/global.css' %}" rel="stylesheet">
+    <link href="{% static '/css/about.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+
+    <style>
+        .product-form {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f7f7f7;
+            text-align: left;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: black;
+            font-size: 26px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 97%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add this CSS rule to change the text color to black */
+        body {
+            color: black;
+        }
+
+        h2, h1, h3 {
+            color: white;
+             font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+
+{% include "messages.html" %}
+<section id="header">
+    <nav class="navbar navbar-expand-md navbar-light" id="navbar_sticky">
+        <div class="container-xl">
+            <a class="navbar-brand fs-2 p-0 fw-bold text-white" href="{% static '/index.html' %}">
+                <a href="#"><img src="{% static '/img/logo.png' %}" width="50" height="50" alt="abc"></a>
+                <span class="col_pink span_1">MODERN</span><br>
+                <span class="font_12 span_2">ART GALLERY</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-0 ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'about'  %}">About </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Events
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'exhibition' %}">Exhibitions</a></li>
+                            <li><a class="dropdown-item border-0" href="{% url 'competition' %}">Competitions</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'blog' %}">Blog </a>
+                    </li>
+                    <li class="nav-item">
+			<a class="nav-link" href="{% url 'auction' %}">Auction </a>
+		  </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+    {% if user.is_authenticated %}
+        <a class="nav-link dropdown-toggle btn btn-primary d-flex align-items-center justify-content-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i>
+            <p class="m-0">{{ user.username }}</p>
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="userDropdown">
+            {% if user.user_type == 'user' %}
+                <a class="dropdown-item" href="{% url 'userprofile' %}">View Profile</a>
+            {% elif user.user_type == 'artist' %}
+                <a class="dropdown-item" href="{% url 'artistprofile' %}">View Profile</a>
+            {% endif %}
+            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        </div>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary ml-lg-3">Login/Register</a>
+    {% endif %}
+</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+<main>
+    <center>
+        <table border="1">
+            <tr>
+                <td class="product-image">
+                    <img class="product-image" src="{{ product.product_image.url }}" alt="{{ product.product_name }}" oncontextmenu="return false;">
+                </td>
+                <td class="product-info">
+                    <h1><strong>{{ product.product_name }}</strong></h1><br>
+                    <p class="product-price">
+                        <!-- Display the sale price -->
+                        <span class="Product Name">Product Name:&nbsp;&nbsp;&nbsp;{{ product.product_name }}</span>
+                    </p>
+                    
+                    <p class="Theme">Theme:&nbsp;&nbsp;&nbsp;{{ product.theme }}</p><br>
+                    <p class="Art Type">Art type :&nbsp;&nbsp;&nbsp;{{ product.art_type }}</p><br>
+                    <p class="Description">Description:&nbsp;&nbsp;&nbsp;{{ product.description }}</p>
+                    <p class="Price">Rs.&nbsp;&nbsp;&nbsp;{{ product.price }}</p>
+                    <p class="Status">{{ product.get_status_display }}</p>
+                    <form action="{% url 'payment_success' %}?product_id={{ product.id }}&user_id={{ user.id }}&amount={{ product.price }}" method="POST">
+                                                      {% csrf_token %}
+                                                      <input type="hidden" name="service_id" value="{{ report.serviceid.serviceid }}">
+                                                      <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                                              data-key="rzp_test_fQqilXxRYaobRm"
+                                                              data-amount="{{ price_times_100 }}"
+                                                              data-currency="INR"
+                                                              data-order_id="{{ payment.id }}"
+                                                              data-buttontext="Pay with Razorpay"
+                                                              data-name="art gallery"
+                                                              data-description="An efficient and reliable service provider"
+                                                              data-image="https://img.freepik.com/free-vector/payment-background-design_1223-72.jpg"
+                                                              data-prefill.name="Anagha"
+                                                              data-prefill.email="anaghap2024a@mca.ajce.in"
+                                                              data-theme.color="#F37254">
+                                                      </script>
+                                                  </form>
+                </td>
+            </tr>
+        </table>
+    </center>
+</main>
+
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar_sticky = document.getElementById("navbar_sticky");
+var sticky = navbar_sticky.offsetTop;
+var navbar_height = document.querySelector('.navbar').offsetHeight;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky + navbar_height) {
+    navbar_sticky.classList.add("sticky")
+	document.body.style.paddingTop = navbar_height + 'px';
+  } else {
+    navbar_sticky.classList.remove("sticky");
+	document.body.style.paddingTop = '0'
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay Payment</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+        }
+
+        #rzp-button {
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #rzp-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Razorpay Checkout Button -->
+    <button id="rzp-button">Pay with Razorpay</button>
+
+    <script>
+        var options = {
+            key: "rzp_test_fQqilXxRYaobRm",
+            amount: {{ order_amount }},
+            currency: 'INR',
+            name: 'Waterain',
+            description: 'Payment for Order',
+            order_id: '{{ razorpay_order_id }}',
+            handler: function(response) {
+                // Handle the Razorpay payment response
+                alert('Payment successful!');
+            },
+            prefill: {
+                name: 'Your Name',
+                email: 'your.email@example.com',
+                contact: 'Your Contact Number',
+            },
+            theme: {
+                color: '#007bff',
+            },
+        };
+
+        var rzp = new Razorpay(options);
+
+        document.getElementById('rzp-button').onclick = function(e) {
+            // Open the Razorpay checkout form
+            rzp.open();
+            e.preventDefault();
+        };
+    </script>
+
+</body>
+</html>

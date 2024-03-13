@@ -14,7 +14,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser,Product,Competition
+from .models import *
 
 class CustomUserAdmin(UserAdmin):
     list_display = ('email', 'user_type', 'first_name', 'last_name', 'is_active', 'date_joined')
@@ -49,7 +49,10 @@ class SuperuserAdmin(admin.ModelAdmin):
 
 # Register the custom admin class
 admin.site.register(User, SuperuserAdmin)
-admin.site.register(Product)
+admin.site.register(Product),
+admin.site.register(AuctionProduct),
 
-admin.site.register(Competition)
+admin.site.register(Competition),
+admin.site.register(Bid)
+
 
