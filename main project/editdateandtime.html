@@ -528,6 +528,16 @@ body {
                             <h3 style="font-size:18px;">auction date and time </h3>
                         </div>
                         </a>
+
+                        <a href="adminauctiondelete.html">
+                        <div class="nav-option option5">
+                            <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
+                                class="nav-img"
+                                alt="blog">
+                            <h3 style="font-size:18px;">auction</h3>
+                        </div>
+                        </a>
     
                         <!--<div class="nav-option logout">
                             <img src=
@@ -582,7 +592,7 @@ body {
             
             <th>Auction Start Datetime</th>
             <th>Auction End Datetime</th>
-             <th>Actions</th> 
+             <!--<th>Actions</th> -->
             <!-- Add more headers if needed -->
         </tr>
     </thead>
@@ -592,12 +602,12 @@ body {
                 
                 <td>{{ product.auction_start_datetime }}</td>
                 <td>{{ product.auction_end_datetime }}</td>
-                 <td>
-                    <!-- Edit button with edit-button class -->
+                 <!--<td>
+                    
                     <button class="edit-button" onclick="editProduct({{ product.id }})">Edit</button>
-                    <!-- Delete button with delete-button class -->
+                    
                     <button class="delete-button" onclick="deleteProduct({{ product.id }})">Delete</button>
-                </td>
+                </td>-->
                 <!-- Add more columns if needed -->
             </tr>
         {% endfor %}
