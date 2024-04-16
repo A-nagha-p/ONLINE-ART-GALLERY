@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -18,22 +17,60 @@
     <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
 
     <style>
-        .product-table {
-            width: 100%;
+        
+
+        h2 {
+            color: white;
         }
 
-        .product-table th {
-            text-align: left;
+        form {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
 
-        .product-table td {
-            padding: 5px;
+        label {
+            display: block;
+            margin-top: 10px;
+            color: black;
         }
 
-        .product-table img {
-            max-width: 100%;
-            height: auto;
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 97%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            color: black;
         }
+
+        input[type="submit"],
+        input[type="reset"] {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover {
+            background-color: #555;
+        }
+
+        .error {
+            color: red;
+        }
+        
     </style>
 </head>
 <body>
@@ -73,7 +110,7 @@
                         <a class="nav-link" href="blog.html">Blog </a>
                     </li>
                     <li class="nav-item">
-			<a class="nav-link" href="auction.html">Auction </a>
+			<a class="nav-link" href="{% url 'auction' %}">Auction </a>
 		  </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact</a>
@@ -103,48 +140,30 @@
     </nav>
 </section>
 
+<div>
+    
 
-<div class="container mt-5">
-    <h2>Product Details</h2>
-    <table class="table" style="background-color: white; border: 1px solid #ddd;">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Product Name</th>
-                <th>Product Image</th>
-                <th>Theme</th>
-                <th>Art Type</th>
-                {% comment %} <th>Quantity</th> {% endcomment %}
-                <th>Description</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Artist</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ product.product_name }}</td>
-                <td><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" class="img-fluid" ></td>
-                <td>{{ product.theme }}</td>
-                <td>{{ product.art_type }}</td>
-                {% comment %} <td>{{ product.quantity }}</td> {% endcomment %}
-                <td>{{ product.description }}</td>
-                <td>Rs.{{ product.price }}</td>
-                <td>{{ product.get_status_display }}</td>
-                <td>{{ product.author.username }}</td>
-                
-                
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+
+
+<center><div>
+    <input type="file" id="uploadImage" accept="image/*"><br><br><br>
+    <button id="submitButton">Submit</button><br><br><br>
+    <a id="downloadLink" download="image.jpg"><button id="downloadButton">Download watermarked Image</button></a><center><br><br><br><br><br><br><br><br><br>
 </div>
 
 
 
-<div class="row footer_2 mt-4 text-center">
+</div>
+
+
+
+
+
+
+
+
+    <div class="row footer_2 mt-4 text-center">
     <div class="col-md-12">
 	 <ul>
 	  <li class="d-inline-block me-3 font_14"><a href="#">CONTACT</a></li>
@@ -159,6 +178,91 @@
 </section>
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+<script>
+    document.getElementById("product_name").addEventListener("input", function(event) {
+        var productName = this.value.trim();
+        var productNameError = document.getElementById("productNameError");
+
+        // Reset previous error message
+        productNameError.textContent = "";
+
+        // Validation for Product Name
+        if (productName !== this.value) {
+            productNameError.textContent = "Product Name should not contain leading spaces";
+            productNameError.style.color = "red";
+        }
+    });
+</script>
+
+
+<script>
+    document.getElementById("product_image").addEventListener("change", function(event) {
+        var productImage = this.files[0];
+        var priceError = document.getElementById("priceError");
+
+        // Reset previous error message
+        priceError.textContent = "";
+
+        // Validation for Product Image
+        if (productImage) {
+            // Check file size
+            if (productImage.size > 40960) { // Max size: 40KB
+                priceError.textContent = "Image size exceeds the maximum limit of 40KB";
+                priceError.style.color = "red";
+                this.value = ""; // Clear the file input
+                return;
+            }
+
+            // Check dimensions
+            var image = new Image();
+            image.src = URL.createObjectURL(productImage);
+            image.onload = function() {
+                var width = this.width;
+                var height = this.height;
+                if (width < 100 || height < 100 || width > 400 || height > 300) { // Min: 100x100, Max: 400x300
+                    priceError.textContent = "Image dimensions must be between 100x100 and 400x300";
+                    priceError.style.color = "red";
+                    document.getElementById("product_image").value = ""; // Clear the file input
+                }
+            };
+        }
+    });
+</script>
+
+
+<script>
+    document.getElementById("auction_form").addEventListener("submit", function(event) {
+        var currentPrice = parseFloat(document.getElementById("current_price").value);
+        var priceError = document.getElementById("priceError");
+
+        // Reset previous error message
+        priceError.textContent = "";
+
+        // Validation for Current Price
+        if (currentPrice <= 0 || isNaN(currentPrice)) {
+            priceError.textContent = "Current Price must be a positive number";
+            priceError.style.color = "red";
+            event.preventDefault();
+        }
+    });
+
+    // Adding validation on input change to give real-time feedback
+    document.getElementById("current_price").addEventListener("input", function(event) {
+        var currentPrice = parseFloat(this.value);
+        var priceError = document.getElementById("priceError");
+
+        // Reset previous error message
+        priceError.textContent = "";
+
+        // Validation for Current Price
+        if (currentPrice <= 0 || isNaN(currentPrice)) {
+            priceError.textContent = "Current Price must be a positive number";
+            priceError.style.color = "red";
+        }
+    });
+</script>
 
 
 
@@ -181,4 +285,3 @@ function myFunction() {
 </script>
 </body>
 </html>
-

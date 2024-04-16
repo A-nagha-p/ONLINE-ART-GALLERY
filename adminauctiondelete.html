@@ -473,7 +473,7 @@ body {
                         </div>
                         </a>
 
-                         <a href="adminauction.html">
+                        <a href="adminauction.html">
                         <div class="nav-option option5">
                             <img src=
     "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
@@ -483,7 +483,8 @@ body {
                         </div>
                         </a>
 
-                        <a href="editdateandtime.html">
+
+                    <a href="editdateandtime.html">
                         <div class="nav-option option5">
                             <img src=
     "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
@@ -525,31 +526,35 @@ body {
 
 
 <div class="container mt-5">
-    <h2>View Blogs</h2>
+    <h2>View Auction Products</h2>
     <table class="table" style="background-color: white; border: 1px solid #ddd;">
         <thead>
             <tr>
                 <th>No.</th>
-                <th>Blog Title</th>
-                <th>Blog Image</th>
-                <th>Publishing Date</th>
-                <th>Description</th>
+                <th>Product Name</th>
+                <th>Product Image</th>
+                <th>Auction Start Date</th>
+                <th>Auction End Date</th>
+                <th>Current Price</th>
+                <th>About Product</th>
                 <th>Author</th>
             </tr>
         </thead>
         <tbody>
-        {% for blog in blogs %}
+        {% for product in auction_products %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ blog.title }}</td>
+                <td>{{ product.product_name }}</td>
                 <td>
-                    {% if blog.image %}
-                        <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="img-fluid">
+                    {% if product.product_image %}
+                        <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" class="img-fluid">
                     {% endif %}
                 </td>
-                <td>{{ blog.publishingDate }}</td>
-                <td>{{ blog.description }}</td>
-                <td>{{ blog.author.username }}</td>
+                <td>{{ product.auction_start_datetime }}</td>
+                <td>{{ product.auction_end_datetime }}</td>
+                <td>{{ product.current_price }}</td>
+                <td>{{ product.about_product }}</td>
+                <td>{{ product.author.username }}</td>
             </tr>
         {% endfor %}
         </tbody>

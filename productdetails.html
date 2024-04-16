@@ -114,6 +114,9 @@
                         <a class="nav-link" href="{% url 'blog' %}">Blog </a>
                     </li>
                     <li class="nav-item">
+			<a class="nav-link" href="{% url 'auction' %}">Auction </a>
+		  </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                     </li>
                     <li class="nav-item dropdown">
@@ -153,15 +156,29 @@
                         <!-- Display the sale price -->
                         <span class="Product Name">Product Name:&nbsp;&nbsp;&nbsp;{{ product.product_name }}</span>
                     </p>
+                    
                     <p class="Theme">Theme:&nbsp;&nbsp;&nbsp;{{ product.theme }}</p><br>
                     <p class="Art Type">Art type :&nbsp;&nbsp;&nbsp;{{ product.art_type }}</p><br>
                     <p class="Description">Description:&nbsp;&nbsp;&nbsp;{{ product.description }}</p>
                     <p class="Price">Rs.&nbsp;&nbsp;&nbsp;{{ product.price }}</p>
                     <p class="Status">{{ product.get_status_display }}</p>
-                    <form method="post" action="#">
-                        {% csrf_token %}
-                        <a href="" class="btn btn-primary">Buy Now</a>
-                    </form>
+                    <form action="{% url 'payment_success' %}?product_id={{ product.id }}&user_id={{ user.id }}&amount={{ product.price }}" method="POST">
+                                                      {% csrf_token %}
+                                                      <input type="hidden" name="service_id" value="{{ report.serviceid.serviceid }}">
+                                                      <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                                              data-key="rzp_test_fQqilXxRYaobRm"
+                                                              data-amount="{{ price_times_100 }}"
+                                                              data-currency="INR"
+                                                              data-order_id="{{ payment.id }}"
+                                                              data-buttontext="Pay with Razorpay"
+                                                              data-name="art gallery"
+                                                              data-description="An efficient and reliable service provider"
+                                                              data-image="https://img.freepik.com/free-vector/payment-background-design_1223-72.jpg"
+                                                              data-prefill.name="Anagha"
+                                                              data-prefill.email="anaghap2024a@mca.ajce.in"
+                                                              data-theme.color="#F37254">
+                                                      </script>
+                                                  </form>
                 </td>
             </tr>
         </table>

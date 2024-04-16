@@ -145,3 +145,7 @@ EMAIL_HOST_PASSWORD = 'mcamcamca'
 
 MEDIA_URL='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+RAZORPAY_KEY_ID = "rzp_test_fQqilXxRYaobRm"
+RAZORPAY_KEY_SECRET = "ksd7HDyfkCs2xHG5arLgkODB"

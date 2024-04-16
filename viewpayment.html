@@ -463,7 +463,7 @@ body {
                         </div>
                         </a>
     
-                       <a href="viewpayment.html">
+                        <a href="viewpayment.html">
                         <div class="nav-option option5">
                             <img src=
     "https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png"
@@ -525,31 +525,25 @@ body {
 
 
 <div class="container mt-5">
-    <h2>View Blogs</h2>
+    <h2>View Payments</h2>
     <table class="table" style="background-color: white; border: 1px solid #ddd;">
         <thead>
             <tr>
-                <th>No.</th>
-                <th>Blog Title</th>
-                <th>Blog Image</th>
-                <th>Publishing Date</th>
-                <th>Description</th>
-                <th>Author</th>
+                <th>User</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Payment Status</th>
+                    <th>Date</th>
             </tr>
         </thead>
         <tbody>
-        {% for blog in blogs %}
+        {% for order in orders %}
             <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ blog.title }}</td>
-                <td>
-                    {% if blog.image %}
-                        <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="img-fluid">
-                    {% endif %}
-                </td>
-                <td>{{ blog.publishingDate }}</td>
-                <td>{{ blog.description }}</td>
-                <td>{{ blog.author.username }}</td>
+                <td>{{ order.user.username }}</td>
+                    <td>{{ order.product.product_name }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>{{ order.payment_status }}</td>
+                    <td>{{ order.date }}</td>
             </tr>
         {% endfor %}
         </tbody>

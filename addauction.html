@@ -17,63 +17,60 @@
     <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
 
     <style>
-        .product-form {
-            width: 800px;
+        
+
+        h2 {
+            color: white;
+        }
+
+        form {
+            width: 50%;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ccc;
-            background-color: #f7f7f7;
-            text-align: left;
-        }
-
-        h2 {
-            text-align: center;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-top: 10px;
             color: black;
         }
 
         input[type="text"],
-        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        input[type="file"],
         select,
         textarea {
             width: 97%;
             padding: 10px;
-            margin-bottom: 15px;
+            margin: 5px 0;
             border: 1px solid #ccc;
             border-radius: 3px;
+            color: black;
         }
 
-        textarea {
-            resize: none;
-        }
-
-        button {
-            background-color: #007BFF;
-            color: white;
+        input[type="submit"],
+        input[type="reset"] {
             padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
             border: none;
             border-radius: 3px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #0056b3;
+        input[type="submit"]:hover,
+        input[type="reset"]:hover {
+            background-color: #555;
         }
 
-        /* Add this CSS rule to change the text color to black */
-        body {
-            color: black;
+        .error {
+            color: red;
         }
-
-        h2, h1, h3 {
-            color: black;
-        }
-       
+        
     </style>
 </head>
 <body>
@@ -113,7 +110,7 @@
                         <a class="nav-link" href="blog.html">Blog </a>
                     </li>
                     <li class="nav-item">
-			<a class="nav-link" href="auction.html">Auction </a>
+			<a class="nav-link" href="{% url 'auction' %}">Auction </a>
 		  </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact</a>
@@ -143,60 +140,52 @@
     </nav>
 </section>
 
-<div class="product-form">
-        <h2>Add Product</h2>
-        <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
+<div>
+    <center><h2>Add Product for auction</h2></center>
+    <form id="auction_form"  method="post" enctype="multipart/form-data">
         {% csrf_token %}
-            <label for="productName">Product Name:</label>
-            <input type="text" name="productName" id="productName" required>
-            <span id="productNameError" class="error-text"></span> 
+        <!-- Product Name -->
+        <label for="product_name">Product Name:</label>
+        <input type="text" id="product_name" name="product_name" required><br>
+        <span id="productNameError" class="error"></span><br>
 
-            <!--<label for="theme">Theme:</label>
-            <input type="text" name="theme" id="theme">-->
+        <!-- About Product -->
+        <label for="about_product">About Product:</label>
+        <textarea id="about_product" name="about_product" rows="4" cols="50" required></textarea><br>
 
-            <label for="theme">Theme:</label>
-<select name="theme" id="theme">
-    <option value="history">History</option>
-    <option value="time">Time</option>
-    <option value="humans_environment">Humans and the Environment</option>
-    <option value="society">Society</option>
-    <option value="culture">Culture</option>
-    <option value="memory">Memory</option>
-    <option value="technology">Technology</option>
-</select>
+        <label for="auction_start_datetime">Auction Start Date and Time:</label>
+        <input type="text" id="auction_start_datetime" name="auction_start_datetime" required value="{{ latest_auction_product.auction_start_datetime|date:'Y-m-d H:i:s' }}"><br>
 
-            <label for="artType">Art Type:</label>
-<select name="artType" id="artType">
-    <option value="pencil_drawing">Pencil Drawing</option>
-    <option value="oil_painting">Oil Painting</option>
-    <option value="watercolor_painting">Watercolor Painting</option>
-    <option value="acrylic_painting">Acrylic Painting</option>
-    <option value="pastel_drawing">Pastel Drawing</option>
-    <option value="landscape_painting">Landscape Painting</option>
-</select>
+        <!-- Auction End Date and Time -->
+        <label for="auction_end_datetime">Auction End Date and Time:</label>
+        <input type="text" id="auction_end_datetime" name="auction_end_datetime" required value="{{ latest_auction_product.auction_end_datetime|date:'Y-m-d H:i:s' }}"><br>
+        
+        <!-- Current Price -->
+        <label for="current_price">Current Price:</label>
+        <input type="number" id="current_price" name="current_price" required><br>
+        <span id="priceError" class="error"></span><br>
 
-            
+        <!-- Image Upload -->
+        <label for="product_image">Product Image:</label>
+        <input type="file" name="product_image" id="product_image" accept="image/*" required><br><br><br>
 
-            <label for="description">Description:</label>
-            <textarea name="description" id="description" rows="4"></textarea>
+        <!-- Server-side validation message -->
+        <!--<p style="font-size: 14px; color: red;">
+            Max Size: 40KB, Max Dimensions: 400x300, Min Dimensions: 100x100
+        </p><br>-->
 
-            <label for="price">Product Price:</label>
-            <input type="number" name="price" id="price" required>
-            <span id="priceError" class="error-text"></span>
+        <!-- Submit and Reset Buttons -->
+        <button type="submit">Add Product</button>&nbsp; &nbsp; <button type="reset">Reset</button>
+    </form>
+</div>
 
-            <label for="status">Status:</label>
-            <select name="status" id="status">
-                <option value="available">Available</option>
-                <option value="out-of-stock">Out of Stock</option>
-            </select>
 
-            <label for="productImage" style="color: red;">Product Image (Max Size: 40KB, Max Dimensions: 400x300,Min Dimensions: 100x100):</label>
-            <input type="file" name="productImage" id="productImage" accept="image/*" onchange="checkImage(this)" required><br><br>
 
-            <button type="submit">Add Product</button>&nbsp; &nbsp; <button type="reset">Reset</button>
-        </form>
-    </div>
-    
+
+
+
+
+
     <div class="row footer_2 mt-4 text-center">
     <div class="col-md-12">
 	 <ul>
@@ -213,96 +202,90 @@
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
+
 <script>
-function checkImage(input) {
-    if (input.files.length > 0) {
-        var image = new Image();
-        image.src = URL.createObjectURL(input.files[0]);
+    document.getElementById("product_name").addEventListener("input", function(event) {
+        var productName = this.value.trim();
+        var productNameError = document.getElementById("productNameError");
 
-        image.onload = function() {
-            var maxWidth = 400; // Max width in pixels
-            var maxHeight = 300; // Max height in pixels
+        // Reset previous error message
+        productNameError.textContent = "";
 
-            if (image.width > maxWidth || image.height > maxHeight) {
-                alert("Image dimensions exceed the maximum allowed size of 400x300 pixels.");
-                input.value = ""; // Clear the input field
+        // Validation for Product Name
+        if (productName !== this.value) {
+            productNameError.textContent = "Product Name should not contain leading spaces";
+            productNameError.style.color = "red";
+        }
+    });
+</script>
+
+
+<script>
+    document.getElementById("product_image").addEventListener("change", function(event) {
+        var productImage = this.files[0];
+        var priceError = document.getElementById("priceError");
+
+        // Reset previous error message
+        priceError.textContent = "";
+
+        // Validation for Product Image
+        if (productImage) {
+            // Check file size
+            if (productImage.size > 40960) { // Max size: 40KB
+                priceError.textContent = "Image size exceeds the maximum limit of 40KB";
+                priceError.style.color = "red";
+                this.value = ""; // Clear the file input
+                return;
             }
-        };
-        
-        var fileSize = input.files[0].size; // Get the file size in bytes
-        var maxSize = 40 * 1024; // 40KB in bytes
 
-        if (fileSize > maxSize) {
-            alert("File size exceeds the maximum allowed size of 40KB.");
-            input.value = ""; // Clear the input field
+            // Check dimensions
+            var image = new Image();
+            image.src = URL.createObjectURL(productImage);
+            image.onload = function() {
+                var width = this.width;
+                var height = this.height;
+                if (width < 100 || height < 100 || width > 400 || height > 300) { // Min: 100x100, Max: 400x300
+                    priceError.textContent = "Image dimensions must be between 100x100 and 400x300";
+                    priceError.style.color = "red";
+                    document.getElementById("product_image").value = ""; // Clear the file input
+                }
+            };
         }
-    }
-}
+    });
 </script>
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    var productNameInput = document.getElementById('productName');
-    var productNameError = document.getElementById('productNameError');
+    document.getElementById("auction_form").addEventListener("submit", function(event) {
+        var currentPrice = parseFloat(document.getElementById("current_price").value);
+        var priceError = document.getElementById("priceError");
 
-    productNameInput.addEventListener('input', function () {
-        var inputValue = productNameInput.value;
-        if (inputValue.startsWith(' ')) {
-            productNameInput.classList.add('error');
-            productNameError.textContent = "Product Name should not start with a space.";
-            productNameError.style.color = "red"; // Set the error message text color to red
-        } else {
-            productNameInput.classList.remove('error');
-            productNameError.textContent = ""; // Clear the error message
+        // Reset previous error message
+        priceError.textContent = "";
+
+        // Validation for Current Price
+        if (currentPrice <= 0 || isNaN(currentPrice)) {
+            priceError.textContent = "Current Price must be a positive number";
+            priceError.style.color = "red";
+            event.preventDefault();
         }
     });
-});
-</script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var priceInput = document.getElementById('price');
-    var priceError = document.getElementById('priceError');
+    // Adding validation on input change to give real-time feedback
+    document.getElementById("current_price").addEventListener("input", function(event) {
+        var currentPrice = parseFloat(this.value);
+        var priceError = document.getElementById("priceError");
 
-    priceInput.addEventListener('input', function () {
-        var inputValue = parseFloat(priceInput.value);
+        // Reset previous error message
+        priceError.textContent = "";
 
-        if (isNaN(inputValue) || inputValue < 0) {
-            priceInput.classList.add('error');
-            priceError.textContent = "Price should be a non-negative value.";
-            priceError.style.color = "red"; // Set the error message text color to red
-        } else {
-            priceInput.classList.remove('error');
-            priceError.textContent = ""; // Clear the error message
+        // Validation for Current Price
+        if (currentPrice <= 0 || isNaN(currentPrice)) {
+            priceError.textContent = "Current Price must be a positive number";
+            priceError.style.color = "red";
         }
     });
-});
 </script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var priceInput = document.getElementById('price');
-    var priceError = document.getElementById('priceError');
-
-    priceInput.addEventListener('input', function () {
-        var inputValue = parseFloat(priceInput.value);
-
-        if (isNaN(inputValue) || inputValue <= 0) {
-            priceInput.classList.add('error');
-            priceError.textContent = "Price should be a positive value greater than zero.";
-            priceError.style.color = "red"; // Set the error message text color to red
-        } else {
-            priceInput.classList.remove('error');
-            priceError.textContent = ""; // Clear the error message
-        }
-    });
-});
-</script>
-
-
-
 
 
 

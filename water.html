@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -18,22 +17,76 @@
     <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
 
     <style>
-        .product-table {
-            width: 100%;
+        
+
+        h2 {
+            color: white;
         }
 
-        .product-table th {
-            text-align: left;
+        form {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
 
-        .product-table td {
-            padding: 5px;
+        label {
+            display: block;
+            margin-top: 10px;
+            color: black;
         }
 
-        .product-table img {
-            max-width: 100%;
-            height: auto;
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 97%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            color: black;
         }
+
+        input[type="submit"],
+        input[type="reset"] {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover {
+            background-color: #555;
+        }
+
+
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white; /* Set background color to white */
+    color: black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: black;
+}
+
+        
     </style>
 </head>
 <body>
@@ -103,48 +156,24 @@
     </nav>
 </section>
 
+<div>
+<center><h2>IMAGE WATERMARKING</h2></center><br><br>
+      <form method="post" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+        {% csrf_token %}
+        <input type="file" name="image">
+        <button type="submit">Upload Image and download</button>
+    </form>
+</div><br><br><br><br><br><br><br><br>
 
-<div class="container mt-5">
-    <h2>Product Details</h2>
-    <table class="table" style="background-color: white; border: 1px solid #ddd;">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Product Name</th>
-                <th>Product Image</th>
-                <th>Theme</th>
-                <th>Art Type</th>
-                {% comment %} <th>Quantity</th> {% endcomment %}
-                <th>Description</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Artist</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ product.product_name }}</td>
-                <td><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" class="img-fluid" ></td>
-                <td>{{ product.theme }}</td>
-                <td>{{ product.art_type }}</td>
-                {% comment %} <td>{{ product.quantity }}</td> {% endcomment %}
-                <td>{{ product.description }}</td>
-                <td>Rs.{{ product.price }}</td>
-                <td>{{ product.get_status_display }}</td>
-                <td>{{ product.author.username }}</td>
-                
-                
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+    
 
 
 
-<div class="row footer_2 mt-4 text-center">
+
+
+
+
+    <div class="row footer_2 mt-4 text-center">
     <div class="col-md-12">
 	 <ul>
 	  <li class="d-inline-block me-3 font_14"><a href="#">CONTACT</a></li>
@@ -159,8 +188,6 @@
 </section>
 <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-
 
 <script>
 window.onscroll = function() {myFunction()};
@@ -181,4 +208,3 @@ function myFunction() {
 </script>
 </body>
 </html>
-
