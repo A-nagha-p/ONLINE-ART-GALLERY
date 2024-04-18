@@ -77,9 +77,6 @@ body {
 		<li class="nav-item">
 			<a class="nav-link" href="blog.html">Blog </a>
 		  </li>
-      <li class="nav-item">
-			<a class="nav-link" href="auction.html">Auction </a>
-		  </li>
 		
 		<!--<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="{% static '/#' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -94,20 +91,15 @@ body {
 		<!--<li class="nav-item">
 			<a class="nav-link" href="Events.html">Events </a>
 		  </li>-->
-		  <!--<li class="nav-item">
+		  <li class="nav-item">
 			<a class="nav-link" href="artstore.html">Art Store </a>
-		  </li>-->
+		  </li>
 				
 		<li class="nav-item">
           <a class="nav-link" href="contact.html">Contact</a>
         </li>
 		<li class="nav-item">
-    {% if user.is_authenticated %}
-    <a href="logout" class="btn btn-primary ml-lg-3">Logout</a>
-    {% else %}
-    <a href="login.html" class="btn btn-primary ml-lg-3">Login/Register</a>
-    {% endif %}
-			<!--<a class="nav-link btn btn-info" style="font-weight: bold;" href="login.html">Login/Register</a>-->
+			<a class="nav-link btn btn-info" style="font-weight: bold;" href="login.html">Login/Register</a>
 		  </li>
 		  <!--<li class="nav-item">
 			<a class="nav-link" href="register.html">Register</a>
@@ -138,26 +130,26 @@ body {
                             <center> <h2 style="font-weight: bold">REGISTER</h2></center>
                             <div class="form-group">
                                 <label for="full_name">Full Name:</label>
-                                <input type="text" id="full_name" placeholder="full_name" name="full_name" class="form-control" required autocomplete="off">
+                                <input type="text" id="full_name" placeholder="full_name" name="full_name" class="form-control" required>
                                 <span id="full_name-error" style="color:red;" class="error"></span>
                             </div><br>
                             
                             <div class="form-group">
                                 <label for="email">Email Address:</label>
-                                <input type="email" id="email" placeholder="email" name="email" class="form-control" required autocomplete="off">
+                                <input type="email" id="email" placeholder="email" name="email" class="form-control" required>
                                 <span id="email-error" style="color:red;" class="error"></span>
                             </div><br>
                             
                             <div class="form-group">
                                 <label for="phone">Phone Number:</label>
-                                <input type="tel" id="phone" placeholder="phone" name="phone" class="form-control" required autocomplete="off">
+                                <input type="tel" id="phone" placeholder="phone" name="phone" class="form-control" required>
                                 <span id="phone-error" style="color:red;" class="error"></span>
                             </div><br>
                            
                             <!-- User Account -->
                             <div class="form-group">
                                 <label for="username">Username:</label>
-                                <input type="text" id="username" placeholder="username" name="username" class="form-control" required autocomplete="off">
+                                <input type="text" id="username" placeholder="username" name="username" class="form-control" required>
                                 <span id="username-error" style="color:red;" class="error"></span>
                             </div><br>
 
@@ -181,19 +173,19 @@ body {
                             
                             <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" id="password" placeholder="password" name="password" class="form-control" required autocomplete="off">
+                                <input type="password" id="password" placeholder="password" name="password" class="form-control" required>
                                 <span id="password-error" style="color:red;" class="error"></span>
                             </div><br>
                       
                             <div class="form-group">
                                 <label for="confirm_password">Confirm Password:</label>
-                                <input type="password" id="confirm_password" placeholder="confirm_password" name="confirm_password" class="form-control" required autocomplete="off">
+                                <input type="password" id="confirm_password" placeholder="confirm_password" name="confirm_password" class="form-control" required>
                                 <span id="confirm_password-error" style="color:red;" class="error"></span>
                             </div><br>
                             
                             <!-- Consent -->
                             <div class="form-group">
-                                <input type="checkbox" id="consent" name="consent" required autocomplete="off">
+                                <input type="checkbox" id="consent" name="consent" required>
                                 <label for="consent">I have read and agree to the terms and conditions.</label>
                             </div>
                             
@@ -492,7 +484,7 @@ body {
 
 function validateEmail() {
   const email = emailInput.value.trim();
-  const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]*@(?:[a-z0-9.-]*[a-z0-9])+\.[a-z]{2,}$/; // Updated pattern
+  const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/; // Updated pattern
   const errorElement = document.getElementById("email-error");
 
   if (!emailPattern.test(email)) {
@@ -505,7 +497,6 @@ function validateEmail() {
     errorElement.textContent = "";
   }
 }
-
 
     function validatePassword() {
         const password = passwordInput.value.trim();
@@ -550,21 +541,6 @@ function validatePhoneNumber() {
             phoneError.textContent = "";
         }
     }
-
-// Function to reset the form fields
-function resetForm() {
-  const registrationForm = document.getElementById("registration-form");
-  const formInputs = registrationForm.querySelectorAll("input, textarea");
-
-  // Clear input values
-  formInputs.forEach((input) => {
-    input.value = "";
-  });
-
-  // Clear any error messages
-  const errorElements = document.querySelectorAll(".error");
-  errorElements.forEach((errorElement) => (errorElement.textContent = ""));
-}
 </script>
 
          </body>
